@@ -1,5 +1,5 @@
 /*
-Avalibe platform identfer
+Available platform identfer
 MS_WINDOWS - 32 bit Microsoft Windows and 64 bit Microsoft Windows
 UNIX_32 - 32 bit Unix like system
 UNIX_64 - 64 bit Unix like system
@@ -29,6 +29,8 @@ void check_password_length(const char *key);
 char get_key(const char *key,const unsigned long int length);
 short int get_primary_key(const char *key,const unsigned long int length);
 short int get_master_key(const char *key,const unsigned long int length);
+short int get_iron_key(const char *key,const unsigned long int length);
+short int get_silver_key(const char *key,const unsigned long int length);
 short int get_plantium_key(const char *key);
 short int encrypt_byte(char source,const char *key,const unsigned long int length,const short int plantium);
 char decrypt_block(short int source,const char *key,const unsigned long int length,const short int plantium);
@@ -60,7 +62,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 0.9.6.8");
+ puts("Version 0.9.7");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017 year");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -298,6 +300,32 @@ short int get_master_key(const char *key,const unsigned long int length)
  return result;
 }
 
+short int get_iron_key(const char *key,const unsigned long int length)
+{
+ static unsigned long int tail=0;
+ static unsigned long int head=0;
+ short int result;
+ if (tail==length-1) tail=0;
+ if (head==0) head=length-1;
+ result=key[tail]^key[head];
+ tail++;
+ head--;
+ return result;
+}
+
+short int get_silver_key(const char *key,const unsigned long int length)
+{
+ static unsigned long int index=0;
+ short int result;
+ if (index==length-1)
+ {
+  index=0;
+ }
+ result=key[index]^key[index+1];
+ index++;
+ return result;
+}
+
 short int get_plantium_key(const char *key)
 {
  unsigned long int index;
@@ -316,14 +344,14 @@ short int encrypt_byte(char source,const char *key,const unsigned long int lengt
  source^=get_key(key,length);
  ~source;
  result=source;
- result+=get_primary_key(key,length)+get_master_key(key,length);
+ result+=get_primary_key(key,length)+get_master_key(key,length)+get_iron_key(key,length)+get_silver_key(key,length);
  return result^plantium;
 }
 
 char decrypt_block(short int source,const char *key,const unsigned long int length,const short int plantium)
 {
  source^=plantium;
- source-=get_master_key(key,length)+get_primary_key(key,length);
+ source-=get_silver_key(key,length)+get_iron_key(key,length)+get_master_key(key,length)+get_primary_key(key,length);
  ~source;
  return source^get_key(key,length);
 }
