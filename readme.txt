@@ -2,12 +2,12 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 0.9.7
+                          Version 0.9.8
 
 System requirement
 
 2 megabytes of free RAM.
-60 kilobytes free space on storage media.
+56 kilobytes free space on storage media.
 
 Program description
 
@@ -101,4 +101,4 @@ Version history
 0.9.6.5 - A lot of internal changes.
 0.9.6.6 - Small bug was fixed.
 0.9.6.7 - 0.9.6.8 - Small changes.
-0.9.6.9 - 0.9.7 - Cryptography algorithm was changed.
+0.9.6.9 - 0.9.8 - Cryptography algorithm was changed.

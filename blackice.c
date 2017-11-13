@@ -31,6 +31,8 @@ short int get_primary_key(const char *key,const unsigned long int length);
 short int get_master_key(const char *key,const unsigned long int length);
 short int get_iron_key(const char *key,const unsigned long int length);
 short int get_silver_key(const char *key,const unsigned long int length);
+short int get_cobalt_key(const char *key);
+short int get_gold_key(const char *key);
 short int get_plantium_key(const char *key);
 short int encrypt_byte(char source,const char *key,const unsigned long int length,const short int plantium);
 char decrypt_block(short int source,const char *key,const unsigned long int length,const short int plantium);
@@ -62,7 +64,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 0.9.7");
+ puts("Version 0.9.8");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017 year");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -326,7 +328,20 @@ short int get_silver_key(const char *key,const unsigned long int length)
  return result;
 }
 
-short int get_plantium_key(const char *key)
+short int get_cobalt_key(const char *key)
+{
+ short int result;
+ unsigned long int index,length;
+ result=0;
+ length=strlen(key);
+ for(index=0;index<length;index++)
+ {
+  result+=key[index];
+ }
+ return result;
+}
+
+short int get_gold_key(const char *key)
 {
  unsigned long int index;
  short int result;
@@ -336,6 +351,11 @@ short int get_plantium_key(const char *key)
   result+=key[index]^key[index-1];
  }
  return result;
+}
+
+short int get_plantium_key(const char *key)
+{
+ return get_cobalt_key(key)^get_gold_key(key);
 }
 
 short int encrypt_byte(char source,const char *key,const unsigned long int length,const short int plantium)
