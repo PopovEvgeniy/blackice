@@ -20,6 +20,7 @@
 #define OUTPUT_FILE_MODE O_CREAT|O_WRONLY
 #define file_seek lseek
 #endif
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
