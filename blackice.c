@@ -64,7 +64,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.0.5");
+ puts("Version 1.0.6");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2018 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -148,7 +148,7 @@ long long int file_tell(const int target)
 char *get_string_memory(const size_t length)
 {
  char *memory=NULL;
- memory=(char*)calloc(length+1,1);
+ memory=(char*)calloc(length+1,sizeof(char));
  check_memory(memory);
  return memory;
 }
@@ -408,8 +408,7 @@ void encrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,size;
- size_t key_length;
- unsigned int block;
+ size_t key_length,block;
  short int plantium;
  short int *encrypted;
  char *decrypted;
@@ -434,9 +433,9 @@ void encrypt_file(const char *target,const char *key)
  key_length=strlen(key);
  while(index<size)
  {
-  if(size-index<(long long int)block) block=(unsigned int)size-(unsigned int)index;
+  if(size-index<(long long int)block) block=(size_t)size-(size_t)index;
   read(input,decrypted,block);
-  encrypt_data(decrypted,encrypted,key,key_length,plantium,(size_t)block);
+  encrypt_data(decrypted,encrypted,key,key_length,plantium,block);
   write(output,encrypted,2*block);
   index=file_tell(input);
   show_progress(index,size);
@@ -452,8 +451,7 @@ void decrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,size;
- size_t key_length;
- unsigned int block;
+ size_t key_length,block;
  short int plantium;
  short int *encrypted;
  char *decrypted;
@@ -481,9 +479,9 @@ void decrypt_file(const char *target,const char *key)
  key_length=strlen(key);
  while(index<size)
  {
-  if(size-index<(long long int)block) block=(unsigned int)size-(unsigned int)index;
+  if(size-index<(long long int)block) block=(size_t)size-(size_t)index;
   read(input,encrypted,block);
-  decrypt_data(encrypted,decrypted,key,key_length,plantium,(size_t)block/2);
+  decrypt_data(encrypted,decrypted,key,key_length,plantium,block/2);
   write(output,decrypted,block/2);
   index=file_tell(input);
   show_progress(index,size);
