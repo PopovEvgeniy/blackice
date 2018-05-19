@@ -38,8 +38,8 @@ short int encrypt_byte(char source,const char *key,const size_t length,const sho
 char decrypt_block(short int source,const char *key,const size_t length,const short int plantium);
 char *create_decrypt_buffer();
 short int *create_encrypt_buffer();
-void encrypt_data(char *source,short int *target,const char *key,const size_t key_length,short int plantium,const size_t length);
-void decrypt_data(short int *source,char *target,const char *key,const size_t key_length,short int plantium,const size_t length);
+void encrypt_data(char *source,short int *target,const char *key,const size_t key_length,short int plantium,const size_t amount);
+void decrypt_data(short int *source,char *target,const char *key,const size_t key_length,short int plantium,const size_t amount);
 void encrypt_file(const char *target,const char *key);
 void decrypt_file(const char *target,const char *key);
 void work(const char *mode,const char *key,const char *target);
@@ -64,7 +64,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.0.6");
+ puts("Version 1.0.9");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2018 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -378,7 +378,7 @@ char decrypt_block(short int source,const char *key,const size_t length,const sh
 
 char *create_decrypt_buffer()
 {
- char *result;
+ char *result=NULL;
  result=(char*)calloc(BUFFER_LENGTH,sizeof(char));
  check_memory(result);
  return result;
@@ -386,31 +386,31 @@ char *create_decrypt_buffer()
 
 short int *create_encrypt_buffer()
 {
- short int *result;
+ short int *result=NULL;
  result=(short int*)calloc(BUFFER_LENGTH,sizeof(short int));
  check_memory(result);
  return result;
 }
 
-void encrypt_data(char *source,short int *target,const char *key,const size_t key_length,short int plantium,const size_t length)
+void encrypt_data(char *source,short int *target,const char *key,const size_t key_length,short int plantium,const size_t amount)
 {
  size_t index;
- for(index=0;index<length;++index) target[index]=encrypt_byte(source[index],key,key_length,plantium);
+ for(index=0;index<amount;++index) target[index]=encrypt_byte(source[index],key,key_length,plantium);
 }
 
-void decrypt_data(short int *source,char *target,const char *key,const size_t key_length,short int plantium,const size_t length)
+void decrypt_data(short int *source,char *target,const char *key,const size_t key_length,short int plantium,const size_t amount)
 {
  size_t index;
- for(index=0;index<length;++index) target[index]=decrypt_block(source[index],key,key_length,plantium);
+ for(index=0;index<amount;++index) target[index]=decrypt_block(source[index],key,key_length,plantium);
 }
 
 void encrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,size;
- size_t key_length,block;
+ size_t key_length,blocks,encrypted_block_size;
  short int plantium;
- short int *encrypted;
+ short int *encrypted=NULL;
  char *decrypted;
  char *short_name=NULL;
  char *name=NULL;
@@ -427,19 +427,19 @@ void encrypt_file(const char *target,const char *key)
  free(extension);
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
- block=BUFFER_LENGTH;
+ blocks=BUFFER_LENGTH;
+ encrypted_block_size=sizeof(short int);
  index=0;
  plantium=get_plantium_key(key);
  key_length=strlen(key);
  while(index<size)
  {
-  if(size-index<(long long int)block) block=(size_t)size-(size_t)index;
-  read(input,decrypted,block);
-  encrypt_data(decrypted,encrypted,key,key_length,plantium,block);
-  write(output,encrypted,2*block);
+  if(size-index<(long long int)blocks) blocks=(size_t)size-(size_t)index;
+  read(input,decrypted,blocks);
+  encrypt_data(decrypted,encrypted,key,key_length,plantium,blocks);
+  write(output,encrypted,encrypted_block_size*blocks);
   index=file_tell(input);
   show_progress(index,size);
-  blackice_sleep(10);
  }
  free(encrypted);
  free(decrypted);
@@ -451,11 +451,11 @@ void decrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,size;
- size_t key_length,block;
+ size_t key_length,blocks,encrypted_block_size;
  short int plantium;
- short int *encrypted;
- char *decrypted;
  blackice_head head;
+ short int *encrypted=NULL;
+ char *decrypted=NULL;
  char *short_name=NULL;
  char *name=NULL;
  char *extension=NULL;
@@ -473,19 +473,19 @@ void decrypt_file(const char *target,const char *key)
  output=create_output_file(name);
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
- block=BUFFER_LENGTH;
+ blocks=BUFFER_LENGTH;
+ encrypted_block_size=sizeof(short int);
  index=0;
  plantium=get_plantium_key(key);
  key_length=strlen(key);
  while(index<size)
  {
-  if(size-index<(long long int)block) block=(size_t)size-(size_t)index;
-  read(input,encrypted,block);
-  decrypt_data(encrypted,decrypted,key,key_length,plantium,block/2);
-  write(output,decrypted,block/2);
+  if(size-index<(long long int)blocks) blocks=(size_t)size-(size_t)index;
+  read(input,encrypted,blocks);
+  decrypt_data(encrypted,decrypted,key,key_length,plantium,blocks/encrypted_block_size);
+  write(output,decrypted,blocks/encrypted_block_size);
   index=file_tell(input);
   show_progress(index,size);
-  blackice_sleep(10);
  }
  free(encrypted);
  free(decrypted);

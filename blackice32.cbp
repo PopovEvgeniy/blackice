@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="blackice" />
+		<Option makefile="makefile" />
+		<Option pch_mode="2" />
+		<Option compiler="mingw-w64_32_bit" />
+		<Build>
+			<Target title="Release">
+				<Option output="bin/Release/32/blackice" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="mingw-w64_32_bit" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-march=core2" />
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add option="-static-libstdc++" />
+			<Add option="-static-libgcc" />
+			<Add option="-static" />
+		</Linker>
+		<Unit filename="blackice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="blackice.h" />
+		<Unit filename="format.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

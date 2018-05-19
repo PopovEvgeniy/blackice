@@ -1,13 +1,9 @@
-#define BUFFER_LENGTH 131072
+#define BUFFER_LENGTH 1048576
 #ifdef MS_WINDOWS
 #include <windows.h>
 #define INPUT_FILE_MODE O_RDONLY|O_BINARY
 #define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_BINARY
 #define file_seek _lseeki64
-#define blackice_sleep(interval) SleepEx(interval,FALSE)
-#endif
-#ifndef MS_WINDOWS
-#define blackice_sleep(interval) usleep(1000*interval)
 #endif
 #ifdef UNIX_32
 #define _LARGEFILE64_SOURCE
