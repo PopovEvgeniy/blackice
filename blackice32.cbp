@@ -19,7 +19,6 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Linker>
-			<Add option="-static-libstdc++" />
 			<Add option="-static-libgcc" />
 			<Add option="-static" />
 		</Linker>

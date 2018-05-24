@@ -2,18 +2,18 @@
 #ifdef MS_WINDOWS
 #include <windows.h>
 #define INPUT_FILE_MODE O_RDONLY|O_BINARY
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_BINARY
+#define OUTPUT_FILE_MODE O_CREAT|O_RDWR|O_BINARY
 #define file_seek _lseeki64
 #endif
 #ifdef UNIX_32
 #define _LARGEFILE64_SOURCE
 #define INPUT_FILE_MODE O_RDONLY|O_LARGEFILE
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_LARGEFILE
+#define OUTPUT_FILE_MODE O_CREAT|O_RDWR|O_LARGEFILE
 #define file_seek lseek64
 #endif
 #ifdef UNIX_64
 #define INPUT_FILE_MODE O_RDONLY
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY
+#define OUTPUT_FILE_MODE O_CREAT|O_RDWR
 #define file_seek lseek
 #endif
 #include <stddef.h>

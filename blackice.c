@@ -64,7 +64,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.0.9");
+ puts("Version 1.1");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2018 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -111,7 +111,7 @@ void check_memory(const void *memory)
 int open_input_file(const char *name)
 {
  int file;
- file=open(name,INPUT_FILE_MODE);
+ file=open(name,INPUT_FILE_MODE,S_IRUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
   puts("Can't open input file");
