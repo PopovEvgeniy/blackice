@@ -18,6 +18,8 @@ int open_input_file(const char *name);
 int create_output_file(const char *name);
 long long int get_file_size(const int target);
 long long int file_tell(const int target);
+void read_data(const int target,void *buffer,const size_t amount);
+void write_data(const int target,void *buffer,const size_t amount);
 char *get_string_memory(const size_t length);
 size_t get_extension_position(const char *source);
 char *get_short_name(const char *name);
@@ -64,7 +66,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.1");
+ puts("Version 1.1.1");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2018 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -103,7 +105,7 @@ void check_memory(const void *memory)
  if(memory==NULL)
  {
   puts("Can't allocate memory");
-  exit(4);
+  exit(6);
  }
 
 }
@@ -143,6 +145,28 @@ long long int get_file_size(const int target)
 long long int file_tell(const int target)
 {
  return file_seek(target,0,SEEK_CUR);
+}
+
+void read_data(const int target,void *buffer,const size_t amount)
+{
+ if (read(target,buffer,amount)==-1)
+  {
+   putchar('\n');
+   puts("Can't read data!");
+   exit(4);
+  }
+
+}
+
+void write_data(const int target,void *buffer,const size_t amount)
+{
+ if (write(target,buffer,amount)==-1)
+  {
+   putchar('\n');
+   puts("Can't write data!");
+   exit(5);
+  }
+
 }
 
 char *get_string_memory(const size_t length)
@@ -224,7 +248,7 @@ blackice_head read_head(const int target)
  if(strncmp(head.signature,"BEF",3)!=0)
  {
   puts("Invalid cryptography container format");
-  exit(5);
+  exit(7);
  }
  return head;
 }
@@ -435,9 +459,9 @@ void encrypt_file(const char *target,const char *key)
  while(index<size)
  {
   if(size-index<(long long int)blocks) blocks=(size_t)size-(size_t)index;
-  read(input,decrypted,blocks);
+  read_data(input,decrypted,blocks);
   encrypt_data(decrypted,encrypted,key,key_length,plantium,blocks);
-  write(output,encrypted,encrypted_block_size*blocks);
+  write_data(output,encrypted,encrypted_block_size*blocks);
   index=file_tell(input);
   show_progress(index,size);
  }
@@ -481,9 +505,9 @@ void decrypt_file(const char *target,const char *key)
  while(index<size)
  {
   if(size-index<(long long int)blocks) blocks=(size_t)size-(size_t)index;
-  read(input,encrypted,blocks);
+  read_data(input,encrypted,blocks);
   decrypt_data(encrypted,decrypted,key,key_length,plantium,blocks/encrypted_block_size);
-  write(output,decrypted,blocks/encrypted_block_size);
+  write_data(output,decrypted,blocks/encrypted_block_size);
   index=file_tell(input);
   show_progress(index,size);
  }
@@ -500,7 +524,7 @@ void work(const char *mode,const char *key,const char *target)
   if(strcmp(mode,"decrypt")!=0)
   {
    puts("Invalid mode flag");
-   exit(6);
+   exit(8);
   }
 
  }

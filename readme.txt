@@ -2,7 +2,7 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.1
+                          Version 1.1.1
 
 System requirement
 
@@ -35,9 +35,11 @@ Exit codes
 1 - Invalid password length
 2 - Can't open input file
 3 - Can't create output file
-4 - Can't allocate memory
-5 - Invalid cryptography container format
-6 - Invalid mode flag
+4 - Can't read data
+5 - Can't write data
+6 - Can't allocate memory
+7 - Invalid cryptography container format
+8 - Invalid mode flag
 
 License
 
@@ -106,4 +108,4 @@ Version history
 0.9.6.9 - 0.9.8 - Cryptography algorithm was changed.
 0.9.9 - 1.0.2 - Small changes.
 1.0.3 - Program was speedup.
-1.0.4 - 1.1 - Small changes.
+1.0.4 - 1.1.1 - Small changes.
