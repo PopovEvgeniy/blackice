@@ -2,12 +2,12 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.1.1
+                          Version 1.1.3
 
 System requirement
 
 Processor:Intel core 2 Duo or better.
-4 megabytes of free RAM.
+1 megabyte of free RAM.
 120 kilobytes free space on storage media.
 Operation system: Any Unix like system, Windows XP or better
 
@@ -109,3 +109,5 @@ Version history
 0.9.9 - 1.0.2 - Small changes.
 1.0.3 - Program was speedup.
 1.0.4 - 1.1.1 - Small changes.
+1.1.2 - Memory usage was reduced.
+1.1.3 - Small changes.
