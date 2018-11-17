@@ -2,14 +2,14 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.1.3
+                          Version 1.1.4
 
 System requirement
 
 Processor:Intel core 2 Duo or better.
 1 megabyte of free RAM.
-120 kilobytes free space on storage media.
-Operation system: Any Unix like system, Windows XP or better
+124 kilobytes free space on storage media.
+Operation system: Unix(Any Unix like system) or Windows(Windows XP or better)
 
 Program description
 
@@ -17,7 +17,8 @@ This program let you encrypt and decrypt your files. It uses the strong cryptogr
 
 Some remarks about encryption and decryption
 
-An encrypted file have twice size than original file. Maximum size of original file is 4 terabytes.
+An encrypted file have twice size than original file. An decrypted file have normal size.
+Output file will create before start encryption or decryption process.
 
 Password limitation
 
@@ -27,7 +28,6 @@ Command line arguments
 
 This program takes 3 command line arguments: mode,password,target file name
 The flags of mode: encrypt - encryption mode, decrypt - decryption mode
-Output file will create before begin of encryption or decryption.
 
 Exit codes
 
@@ -63,13 +63,13 @@ Installation steps:
 1.Extract content of source code archive.
 2.Open blackice.c file and change platform identifier. Save changes.
 3.Open terminal and go to source code directory.
-4.Run: make install
+4.Run as root: make install
 
 Uninstall steps:
 
 1.Extract content of source code archive.
 2.Open terminal and go to source code directory.
-3.Run: make uninstall
+3.Run as root: make uninstall
 
 Contact
 
@@ -110,4 +110,4 @@ Version history
 1.0.3 - Program was speedup.
 1.0.4 - 1.1.1 - Small changes.
 1.1.2 - Memory usage was reduced.
-1.1.3 - Small changes.
+1.1.3 - 1.1.4 - Small changes.

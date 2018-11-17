@@ -8,12 +8,12 @@
 #ifdef UNIX_32
 #define _LARGEFILE64_SOURCE
 #define INPUT_FILE_MODE O_RDONLY|O_LARGEFILE
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_SYNC|O_LARGEFILE
+#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_LARGEFILE
 #define file_seek lseek64
 #endif
 #ifdef UNIX_64
 #define INPUT_FILE_MODE O_RDONLY
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_SYNC
+#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY
 #define file_seek lseek
 #endif
 #include <stddef.h>
