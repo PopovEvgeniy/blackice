@@ -35,6 +35,7 @@ short int get_iron_key(const char *key,const size_t length);
 short int get_silver_key(const char *key,const size_t length);
 short int get_cobalt_key(const char *key);
 short int get_gold_key(const char *key);
+short int get_titanium_key(const char *key);
 short int get_plantium_key(const char *key);
 short int encrypt_byte(char source,const char *key,const size_t length,const short int plantium);
 char decrypt_block(short int source,const char *key,const size_t length,const short int plantium);
@@ -66,9 +67,9 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.1.4");
+ puts("Version 1.2");
  puts("Complex file cryptography tool(both encryption and decryption)");
- puts("Copyright by Popov Evgeniy Alekseyevich,2017-2018 years");
+ puts("Copyright by Popov Evgeniy Alekseyevich,2017-2019 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
  putchar('\n');
 }
@@ -377,9 +378,23 @@ short int get_gold_key(const char *key)
  return result;
 }
 
+short int get_titanium_key(const char *key)
+{
+ size_t index;
+ short int result;
+ result=0;
+ for (index=strlen(key);index>0;--index)
+ {
+  result+=key[index];
+ }
+ return SHRT_MAX^result;
+}
+
 short int get_plantium_key(const char *key)
 {
- return get_cobalt_key(key)^get_gold_key(key);
+ short int result;
+ result=get_cobalt_key(key)^get_gold_key(key);
+ return result^get_titanium_key(key);
 }
 
 short int encrypt_byte(char source,const char *key,const size_t length,const short int plantium)
