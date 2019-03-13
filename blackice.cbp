@@ -37,7 +37,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-march=core2" />
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="blackice.c">

@@ -67,7 +67,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.2");
+ puts("Version 1.2.5");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2019 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -276,11 +276,11 @@ void check_password_length(const char *key)
 {
  size_t length;
  length=strlen(key);
- if (length<2||length>258)
+ if (length<2||length>255)
  {
   puts("Invalid password length");
   puts("Minimum password length: 2 character");
-  puts("Maximum password length: 258 character");
+  puts("Maximum password length: 255 character");
   exit(1);
  }
 
@@ -446,7 +446,7 @@ void decrypt_data(short int *source,char *target,const char *key,const size_t ke
 void encrypt_file(const char *target,const char *key)
 {
  int input,output;
- long long int index,size;
+ long long int index,length;
  size_t key_length,blocks,encrypted_block_size;
  short int plantium;
  short int *encrypted=NULL;
@@ -455,7 +455,7 @@ void encrypt_file(const char *target,const char *key)
  char *name=NULL;
  char *extension=NULL;
  input=open_input_file(target);
- size=get_file_size(input);
+ length=get_file_size(input);
  short_name=get_short_name(target);
  extension=get_extension(target);
  name=get_name(short_name,".bef");
@@ -471,14 +471,14 @@ void encrypt_file(const char *target,const char *key)
  index=0;
  plantium=get_plantium_key(key);
  key_length=strlen(key);
- while(index<size)
+ while(index<length)
  {
-  if(size-index<(long long int)blocks) blocks=(size_t)size-(size_t)index;
+  if(length-index<(long long int)blocks) blocks=(size_t)length-(size_t)index;
   read_data(input,decrypted,blocks);
   encrypt_data(decrypted,encrypted,key,key_length,plantium,blocks);
   write_data(output,encrypted,encrypted_block_size*blocks);
   index=file_tell(input);
-  show_progress(index,size);
+  show_progress(index,length);
  }
  free(encrypted);
  free(decrypted);
@@ -489,7 +489,7 @@ void encrypt_file(const char *target,const char *key)
 void decrypt_file(const char *target,const char *key)
 {
  int input,output;
- long long int index,size;
+ long long int index,length;
  size_t key_length,blocks,encrypted_block_size;
  short int plantium;
  blackice_head head;
@@ -499,7 +499,7 @@ void decrypt_file(const char *target,const char *key)
  char *name=NULL;
  char *extension=NULL;
  input=open_input_file(target);
- size=get_file_size(input);
+ length=get_file_size(input);
  short_name=get_short_name(target);
  head=read_head(input);
  if(head.extension>0)
@@ -507,7 +507,6 @@ void decrypt_file(const char *target,const char *key)
   extension=get_string_memory((size_t)head.extension);
   read(input,extension,head.extension);
  }
- size-=file_tell(input);
  name=get_name(short_name,extension);
  output=create_output_file(name);
  encrypted=create_encrypt_buffer();
@@ -517,14 +516,14 @@ void decrypt_file(const char *target,const char *key)
  index=0;
  plantium=get_plantium_key(key);
  key_length=strlen(key);
- while(index<size)
+ while(index<length)
  {
-  if(size-index<(long long int)blocks) blocks=(size_t)size-(size_t)index;
-  read_data(input,encrypted,blocks);
-  decrypt_data(encrypted,decrypted,key,key_length,plantium,blocks/encrypted_block_size);
-  write_data(output,decrypted,blocks/encrypted_block_size);
+  if(length-index<(long long int)blocks*encrypted_block_size) blocks=((size_t)length-(size_t)index)/encrypted_block_size;
+  read_data(input,encrypted,blocks*encrypted_block_size);
+  decrypt_data(encrypted,decrypted,key,key_length,plantium,blocks);
+  write_data(output,decrypted,blocks);
   index=file_tell(input);
-  show_progress(index,size);
+  show_progress(index,length);
  }
  free(encrypted);
  free(decrypted);

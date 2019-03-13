@@ -2,7 +2,7 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.2
+                          Version 1.2.5
 
 System requirement
 
@@ -22,7 +22,7 @@ Output file will create before start encryption or decryption process.
 
 Password limitation
 
-Minimum password length is 2 character. Maximum password length is 258 character.
+Minimum password length is 2 character. Maximum password length is 255 character.
 
 Command line arguments
 
@@ -112,3 +112,7 @@ Version history
 1.1.2 - Memory usage was reduced.
 1.1.3 - 1.1.4 - Small changes.
 1.2 - Small changes in cryptography algorithm.
+1.2.1 - Maximum password length was decreased.
+1.2.2 - Small changes.
+1.2.3 - 1.2.4 - Small bug in file decryption was fixed.
+1.2.5 - Small changes.
