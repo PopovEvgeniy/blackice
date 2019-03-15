@@ -64,7 +64,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.5");
+ puts("Version 1.5.1");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2019 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -410,7 +410,7 @@ void encrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,length;
- size_t blocks,encrypted_block_size;
+ size_t blocks,chunk,encrypted_block_size;
  short int plantium;
  short int *encrypted=NULL;
  char *decrypted;
@@ -431,14 +431,19 @@ void encrypt_file(const char *target,const char *key)
  decrypted=create_decrypt_buffer();
  blocks=BUFFER_LENGTH;
  encrypted_block_size=sizeof(short int);
+ chunk=blocks*encrypted_block_size;
  index=0;
  plantium=get_plantium_key(key);
  while(index<length)
  {
-  if(length-index<(long long int)blocks) blocks=(size_t)length-(size_t)index;
+  if(length-index<(long long int)blocks)
+  {
+   blocks=(size_t)length-(size_t)index;
+   chunk=blocks*encrypted_block_size;
+  }
   read_data(input,decrypted,blocks);
   encrypt_data(decrypted,encrypted,key,plantium,blocks);
-  write_data(output,encrypted,encrypted_block_size*blocks);
+  write_data(output,encrypted,chunk);
   index=file_tell(input);
   show_progress(index,length);
  }
@@ -452,7 +457,7 @@ void decrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,length;
- size_t blocks,encrypted_block_size;
+ size_t blocks,chunk,encrypted_block_size;
  short int plantium;
  blackice_head head;
  short int *encrypted=NULL;
@@ -475,12 +480,17 @@ void decrypt_file(const char *target,const char *key)
  decrypted=create_decrypt_buffer();
  blocks=BUFFER_LENGTH;
  encrypted_block_size=sizeof(short int);
+ chunk=blocks*encrypted_block_size;
  index=0;
  plantium=get_plantium_key(key);
  while(index<length)
  {
-  if(length-index<(long long int)blocks*encrypted_block_size) blocks=((size_t)length-(size_t)index)/encrypted_block_size;
-  read_data(input,encrypted,blocks*encrypted_block_size);
+  if(length-index<(long long int)chunk)
+  {
+   blocks=((size_t)length-(size_t)index)/encrypted_block_size;
+   chunk=blocks*encrypted_block_size;
+  }
+  read_data(input,encrypted,chunk);
   decrypt_data(encrypted,decrypted,key,plantium,blocks);
   write_data(output,decrypted,blocks);
   index=file_tell(input);
