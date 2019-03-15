@@ -64,7 +64,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.5.1");
+ puts("Version 1.5.2");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2019 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -364,7 +364,6 @@ short int encrypt_byte(char source,const char *key,const short int plantium)
 {
  short int result;
  source^=get_key(key);
- ~source;
  result=source;
  result+=get_primary_key(key)+get_silver_key(key);
  return result^plantium;
@@ -374,7 +373,6 @@ char decrypt_block(short int source,const char *key,const short int plantium)
 {
  source^=plantium;
  source-=get_silver_key(key)+get_primary_key(key);
- ~source;
  return source^get_key(key);
 }
 
