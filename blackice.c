@@ -25,6 +25,7 @@ size_t get_extension_position(const char *source);
 char *get_short_name(const char *name);
 char* get_name(const char *name,const char *ext);
 char *get_extension(const char *name);
+void check_signature(const char *signature);
 blackice_head read_head(const int target);
 void write_container_data(const int target,const char *extension);
 void check_password_length(const char *key);
@@ -64,7 +65,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.5.3");
+ puts("Version 1.5.4");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2019 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -239,15 +240,21 @@ char *get_extension(const char *name)
  return result;
 }
 
-blackice_head read_head(const int target)
+void check_signature(const char *signature)
 {
- blackice_head head;
- read(target,&head,sizeof(blackice_head));
- if(strncmp(head.signature,"BEF",3)!=0)
+ if(strncmp(signature,"BEF",3)!=0)
  {
   puts("Invalid cryptography container format");
   exit(7);
  }
+
+}
+
+blackice_head read_head(const int target)
+{
+ blackice_head head;
+ read(target,&head,sizeof(blackice_head));
+ check_signature(head.signature);
  return head;
 }
 
