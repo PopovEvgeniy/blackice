@@ -32,6 +32,7 @@ void check_password_length(const char *key);
 char get_key(const char *key);
 short int get_primary_key(const char *key);
 short int get_silver_key(const char *key);
+short int get_iron_key(const char *key);
 short int get_cobalt_key(const char *key);
 short int get_gold_key(const char *key);
 short int get_plantium_key(const char *key);
@@ -65,9 +66,9 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.5.4");
+ puts("Version 1.5.5");
  puts("Complex file cryptography tool(both encryption and decryption)");
- puts("Copyright by Popov Evgeniy Alekseyevich,2017-2019 years");
+ puts("Copyright by Popov Evgeniy Alekseyevich,2017-2020 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
  putchar('\n');
 }
@@ -337,6 +338,22 @@ short int get_silver_key(const char *key)
  return result;
 }
 
+short int get_iron_key(const char *key)
+{
+ static size_t tail;
+ static size_t head;
+ static size_t length;
+ short int result;
+ if (length==0) length=strlen(key);
+ if (tail==length-1) tail=0;
+ if (head==0) head=length-1;
+ result=key[tail];
+ result+=key[head];
+ ++tail;
+ --head;
+ return result;
+}
+
 short int get_cobalt_key(const char *key)
 {
  short int result;
@@ -371,14 +388,14 @@ short int encrypt_byte(const char source,const char *key,const short int plantiu
 {
  short int result;
  result=source^get_key(key);
- result+=get_primary_key(key)+get_silver_key(key);
+ result+=get_primary_key(key)+get_silver_key(key)+get_iron_key(key);
  return result^plantium;
 }
 
 char decrypt_block(short int source,const char *key,const short int plantium)
 {
  source^=plantium;
- source-=get_silver_key(key)+get_primary_key(key);
+ source-=get_iron_key(key)+get_silver_key(key)+get_primary_key(key);
  return source^get_key(key);
 }
 
