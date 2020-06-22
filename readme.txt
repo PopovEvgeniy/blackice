@@ -2,14 +2,14 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.5.5
+                          Version 1.5.5.1
 
 System requirement
 
 Processor:Intel core 2 Duo or better.
 1 megabyte of free RAM.
-124 kilobytes free space on storage media.
-Operation system: Unix(Any Unix like system) or Windows(Windows XP or better)
+56 kilobytes free space on storage media.
+Operation system: Unix(Any Unix like system) or Windows(Windows 2000 or higher)
 
 Program description
 
@@ -47,7 +47,7 @@ This program distributed under GNU GENERAL PUBLIC LICENSE.
 
 Source code
 
-The program source code was compiled under MINGW-w64. But you can do it under any modern C compiler.
+The program source code was compiled under Open Watcom V2 Fork. But you can do it under any modern C compiler.
 Source code can be compiled for wide range operation systems, but you need create makefile or build script by yourself.
 I provide only two things: compiled binary file for Windows and makefile for Linux.
 
@@ -121,3 +121,4 @@ Version history
 1.4 - 1.5 - Cryptography algorithm was changed.
 1.5.1 - 1.5.4 - Small changes.
 1.5.5 - Cryptography algorithm was changed.
+1.5.5.1 - Source code was recompiled under Open Watcom V2 Fork.
