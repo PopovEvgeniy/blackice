@@ -33,8 +33,8 @@ char get_key(const char *key,const size_t length);
 short int get_primary_key(const char *key,const size_t length);
 short int get_silver_key(const char *key,const size_t length);
 short int get_iron_key(const char *key,const size_t length);
-short int get_cobalt_key(const char *key);
-short int get_gold_key(const char *key);
+short int get_cobalt_key(const char *key,const size_t length);
+short int get_gold_key(const char *key,const size_t length);
 short int get_plantium_key(const char *key);
 short int encrypt_byte(const char source,const char *key,const short int plantium);
 char decrypt_block(short int source,const char *key,const short int plantium);
@@ -66,7 +66,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.5.6");
+ puts("Version 1.5.7");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2021 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -346,12 +346,11 @@ short int get_iron_key(const char *key,const size_t length)
  return result;
 }
 
-short int get_cobalt_key(const char *key)
+short int get_cobalt_key(const char *key,const size_t length)
 {
  short int result;
- size_t index,length;
+ size_t index;
  result=0;
- length=strlen(key);
  for(index=0;index<length;++index)
  {
   result+=key[index];
@@ -359,12 +358,12 @@ short int get_cobalt_key(const char *key)
  return result;
 }
 
-short int get_gold_key(const char *key)
+short int get_gold_key(const char *key,const size_t length)
 {
  size_t index;
  short int result;
  result=0;
- for (index=strlen(key);index>0;--index)
+ for (index=length;index>0;--index)
  {
   result+=key[index]^key[index-1];
  }
@@ -373,7 +372,9 @@ short int get_gold_key(const char *key)
 
 short int get_plantium_key(const char *key)
 {
- return get_cobalt_key(key)^get_gold_key(key);
+ size_t length;
+ length=strlen(key);
+ return get_cobalt_key(key,length)^get_gold_key(key,length);
 }
 
 short int encrypt_byte(const char source,const char *key,const short int plantium)
