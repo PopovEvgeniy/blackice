@@ -2,7 +2,7 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.5.7
+                          Version 1.6.1
 
 System requirement
 
@@ -122,4 +122,5 @@ Version history
 1.5.1 - 1.5.4 - Small changes.
 1.5.5 - Cryptography algorithm was changed.
 1.5.5.1 - Source code was recompiled under Open Watcom V2 Fork.
-1.5.6 - 1.5.7 - Perfomance was improved.
+1.5.6 - 1.6 - Perfomance was improved.
+1.6.1 - Small changes.

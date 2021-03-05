@@ -35,13 +35,13 @@ short int get_silver_key(const char *key,const size_t length);
 short int get_iron_key(const char *key,const size_t length);
 short int get_cobalt_key(const char *key,const size_t length);
 short int get_gold_key(const char *key,const size_t length);
-short int get_plantium_key(const char *key);
-short int encrypt_byte(const char source,const char *key,const short int plantium);
-char decrypt_block(short int source,const char *key,const short int plantium);
+short int get_plantium_key(const char *key,const size_t length);
+short int encrypt_byte(const char source,const char *key,const size_t length,const short int plantium);
+char decrypt_block(short int source,const char *key,const size_t length,const short int plantium);
 char *create_decrypt_buffer();
 short int *create_encrypt_buffer();
-void encrypt_data(char *source,short int *target,const char *key,short int plantium,const size_t amount);
-void decrypt_data(short int *source,char *target,const char *key,short int plantium,const size_t amount);
+void encrypt_data(char *source,short int *target,const char *key,const size_t length,short int plantium,const size_t amount);
+void decrypt_data(short int *source,char *target,const char *key,const size_t length,short int plantium,const size_t amount);
 void encrypt_file(const char *target,const char *key);
 void decrypt_file(const char *target,const char *key);
 void work(const char *mode,const char *key,const char *target);
@@ -66,7 +66,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.5.7");
+ puts("Version 1.6.1");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2021 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -233,7 +233,7 @@ char *get_extension(const char *name)
   {
    length-=index-1;
    result=get_string_memory(length);
-   memmove(result,name+index,length);
+   strncpy(result,name+index,length);
    break;
   }
 
@@ -370,27 +370,21 @@ short int get_gold_key(const char *key,const size_t length)
  return result;
 }
 
-short int get_plantium_key(const char *key)
+short int get_plantium_key(const char *key,const size_t length)
 {
- size_t length;
- length=strlen(key);
  return get_cobalt_key(key,length)^get_gold_key(key,length);
 }
 
-short int encrypt_byte(const char source,const char *key,const short int plantium)
+short int encrypt_byte(const char source,const char *key,const size_t length,const short int plantium)
 {
  short int result;
- size_t length;
- length=strlen(key);
  result=source^get_key(key,length);
  result+=get_primary_key(key,length)+get_silver_key(key,length)+get_iron_key(key,length);
  return result^plantium;
 }
 
-char decrypt_block(short int source,const char *key,const short int plantium)
+char decrypt_block(short int source,const char *key,const size_t length,const short int plantium)
 {
- size_t length;
- length=strlen(key);
  source^=plantium;
  source-=get_iron_key(key,length)+get_silver_key(key,length)+get_primary_key(key,length);
  return source^get_key(key,length);
@@ -412,23 +406,31 @@ short int *create_encrypt_buffer()
  return result;
 }
 
-void encrypt_data(char *source,short int *target,const char *key,short int plantium,const size_t amount)
+void encrypt_data(char *source,short int *target,const char *key,const size_t length,short int plantium,const size_t amount)
 {
  size_t index;
- for(index=0;index<amount;++index) target[index]=encrypt_byte(source[index],key,plantium);
+ for (index=0;index<amount;++index)
+ {
+  target[index]=encrypt_byte(source[index],key,length,plantium);
+ }
+
 }
 
-void decrypt_data(short int *source,char *target,const char *key,short int plantium,const size_t amount)
+void decrypt_data(short int *source,char *target,const char *key,const size_t length,short int plantium,const size_t amount)
 {
  size_t index;
- for(index=0;index<amount;++index) target[index]=decrypt_block(source[index],key,plantium);
+ for (index=0;index<amount;++index)
+ {
+  target[index]=decrypt_block(source[index],key,length,plantium);
+ }
+
 }
 
 void encrypt_file(const char *target,const char *key)
 {
  int input,output;
- long long int index,length;
- size_t blocks,chunk,encrypted_block_size;
+ long long int index,amount;
+ size_t blocks,length,chunk,encrypted_block_size;
  short int plantium;
  short int *encrypted=NULL;
  char *decrypted;
@@ -436,7 +438,7 @@ void encrypt_file(const char *target,const char *key)
  char *name=NULL;
  char *extension=NULL;
  input=open_input_file(target);
- length=get_file_size(input);
+ amount=get_file_size(input);
  short_name=get_short_name(target);
  extension=get_extension(target);
  name=get_name(short_name,".bef");
@@ -451,19 +453,20 @@ void encrypt_file(const char *target,const char *key)
  encrypted_block_size=sizeof(short int);
  chunk=blocks*encrypted_block_size;
  index=0;
- plantium=get_plantium_key(key);
- while(index<length)
+ length=strlen(key);
+ plantium=get_plantium_key(key,length);
+ while (index<amount)
  {
-  if(length-index<(long long int)blocks)
+  if (amount-index<(long long int)blocks)
   {
-   blocks=(size_t)length-(size_t)index;
+   blocks=(size_t)amount-(size_t)index;
    chunk=blocks*encrypted_block_size;
   }
   read_data(input,decrypted,blocks);
-  encrypt_data(decrypted,encrypted,key,plantium,blocks);
+  encrypt_data(decrypted,encrypted,key,length,plantium,blocks);
   write_data(output,encrypted,chunk);
   index=file_tell(input);
-  show_progress(index,length);
+  show_progress(index,amount);
  }
  free(encrypted);
  free(decrypted);
@@ -474,8 +477,8 @@ void encrypt_file(const char *target,const char *key)
 void decrypt_file(const char *target,const char *key)
 {
  int input,output;
- long long int index,length;
- size_t blocks,chunk,encrypted_block_size;
+ long long int index,amount;
+ size_t blocks,length,chunk,encrypted_block_size;
  short int plantium;
  blackice_head head;
  short int *encrypted=NULL;
@@ -484,10 +487,10 @@ void decrypt_file(const char *target,const char *key)
  char *name=NULL;
  char *extension=NULL;
  input=open_input_file(target);
- length=get_file_size(input);
+ amount=get_file_size(input);
  short_name=get_short_name(target);
  head=read_head(input);
- if(head.extension>0)
+ if (head.extension>0)
  {
   extension=get_string_memory((size_t)head.extension);
   read(input,extension,head.extension);
@@ -500,19 +503,20 @@ void decrypt_file(const char *target,const char *key)
  encrypted_block_size=sizeof(short int);
  chunk=blocks*encrypted_block_size;
  index=0;
- plantium=get_plantium_key(key);
- while(index<length)
+ length=strlen(key);
+ plantium=get_plantium_key(key,length);
+ while (index<amount)
  {
-  if(length-index<(long long int)chunk)
+  if (amount-index<(long long int)chunk)
   {
-   blocks=((size_t)length-(size_t)index)/encrypted_block_size;
+   blocks=((size_t)amount-(size_t)index)/encrypted_block_size;
    chunk=blocks*encrypted_block_size;
   }
   read_data(input,encrypted,chunk);
-  decrypt_data(encrypted,decrypted,key,plantium,blocks);
+  decrypt_data(encrypted,decrypted,key,length,plantium,blocks);
   write_data(output,decrypted,blocks);
   index=file_tell(input);
-  show_progress(index,length);
+  show_progress(index,amount);
  }
  free(encrypted);
  free(decrypted);
