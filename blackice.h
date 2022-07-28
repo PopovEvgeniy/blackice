@@ -1,21 +1,19 @@
 #define BUFFER_LENGTH 4096
-#ifdef MS_WINDOWS
+
+#ifdef _WIN32
 #include <windows.h>
 #define INPUT_FILE_MODE O_RDONLY|O_BINARY
 #define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_BINARY
 #define file_seek _lseeki64
 #endif
-#ifdef UNIX_32
+
+#ifndef _WIN32
 #define _LARGEFILE64_SOURCE
 #define INPUT_FILE_MODE O_RDONLY|O_LARGEFILE
 #define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_LARGEFILE
 #define file_seek lseek64
 #endif
-#ifdef UNIX_64
-#define INPUT_FILE_MODE O_RDONLY
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY
-#define file_seek lseek
-#endif
+
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,10 +1,3 @@
-/*
-Available platform identfer
-MS_WINDOWS - 32 bit Microsoft Windows and 64 bit Microsoft Windows
-UNIX_32 - 32 bit Unix like system
-UNIX_64 - 64 bit Unix like system
-*/
-#define MS_WINDOWS
 #include "format.h"
 #include "blackice.h"
 
@@ -66,9 +59,9 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.6.1");
+ puts("Version 1.6.2");
  puts("Complex file cryptography tool(both encryption and decryption)");
- puts("Copyright by Popov Evgeniy Alekseyevich,2017-2021 years");
+ puts("Copyright by Popov Evgeniy Alekseyevich,2017-2022 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
  putchar('\n');
 }
