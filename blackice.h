@@ -1,7 +1,6 @@
 #define BUFFER_LENGTH 4096
 
 #ifdef _WIN32
-#include <windows.h>
 #define INPUT_FILE_MODE O_RDONLY|O_BINARY
 #define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_BINARY
 #define file_seek _lseeki64
