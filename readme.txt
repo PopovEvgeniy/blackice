@@ -2,7 +2,7 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.6.3
+                          Version 1.6.4
 
 System requirement
 
@@ -119,4 +119,4 @@ Version history
 1.5.6 - 1.6 - Performance improved.
 1.6.1 - 1.6.2 - Small changes.
 1.6.2.1 - Makefile update.
-1.6.3 - Small changes.
+1.6.3 - 1.6.4 - Small changes.
