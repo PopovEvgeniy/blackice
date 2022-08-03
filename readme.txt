@@ -2,14 +2,14 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.6.4
+                          Version 1.6.5
 
 System requirement
 
 Processor:Intel Pentium III 1GHz or better.
 1 megabyte of free RAM.
 56 kilobytes free space on storage media.
-Operation system: Unix(Any Unix like system) or Windows(Windows 2000 or higher)
+Operating system: Unix(Any Unix like system) or Windows(Windows 2000 or higher)
 
 Program description
 
@@ -17,12 +17,12 @@ This program let you encrypt and decrypt your files. It uses the strong cryptogr
 
 Some remarks about encryption and decryption
 
-An encrypted file have twice size than original file. A decrypted file have normal size.
+An encrypted file has twice size than the original file. A decrypted file has normal size.
 Output file will create before start encryption or decryption process.
 
 Password limitation
 
-Minimum password length is 2 character. Maximum password length is 255 character.
+Minimum password length is 2 characters. Maximum password length is 255 character.
 
 Command line arguments
 
@@ -48,7 +48,7 @@ This program distributed under GNU GENERAL PUBLIC LICENSE.
 Source code
 
 The program source code compiled under Open Watcom V2 Fork. But you can do it under any modern C compiler.
-Source code can be compiled for wide range operation systems, but you need to create makefile or build script by yourself.
+Source code can be compiled for wide range operating systems, but you need to create makefile or build script by yourself.
 I provide only two things: compiled binary file for Windows and makefile for Linux.
 
 Installation and uninstall under Linux
@@ -71,7 +71,6 @@ You can send me a letter to tuzik87@inbox.ru.
 
 Thanks
 
-What you need when you try to create a big thing? A technical consultation. I need it too.
 I want to say «Big thanks for technical consultation» to these peoples:
 
 BlackBird
@@ -88,7 +87,7 @@ Version history
 0.9 - Old Windows version support dropped. Linux support added. File size limit increased.
 0.9.1 - Small changes.
 0.9.2 - Speed of cryptography algorithm increased.
-0.9.3 - Small bug has been fix.
+0.9.3 - Small bug fixed.
 0.9.4 - 0.9.4.3 - Cryptography algorithm changed.
 0.9.5 - Processor usage reduced.
 0.9.6 - Memory usage reduced.
@@ -97,7 +96,7 @@ Version history
 0.9.6.3 - Processor and memory usage reduced.
 0.9.6.4 - Small changes.
 0.9.6.5 - A lot of internal changes.
-0.9.6.6 - Small bug was fix.
+0.9.6.6 - Small bug fixed.
 0.9.6.7 - 0.9.6.8 - Small changes.
 0.9.6.9 - 0.9.8 - Cryptography algorithm changed.
 0.9.9 - 1.0.2 - Small changes.
@@ -115,8 +114,8 @@ Version history
 1.4 - 1.5 - Cryptography algorithm changed.
 1.5.1 - 1.5.4 - Small changes.
 1.5.5 - Cryptography algorithm changed.
-1.5.5.1 - Source code was recompiled under Open Watcom V2 Fork.
+1.5.5.1 - Source code recompiled under Open Watcom V2 Fork.
 1.5.6 - 1.6 - Performance improved.
 1.6.1 - 1.6.2 - Small changes.
 1.6.2.1 - Makefile update.
-1.6.3 - 1.6.4 - Small changes.
+1.6.3 - 1.6.5 - Small changes.
