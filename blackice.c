@@ -3,8 +3,7 @@
 
 void show_intro();
 void command_line_help();
-void show_start_message();
-void show_end_message();
+void show_message(const char *message);
 void show_progress(const long long int start,const long long int end);
 void check_memory(const void *memory);
 int open_input_file(const char *name);
@@ -59,28 +58,23 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.6.5");
+ puts("Version 1.6.7");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2022 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
- putchar('\n');
 }
 
 void command_line_help()
 {
+ putchar('\n');
  puts("You must give 3 command line arguments: mode,password,target file name");
  puts("The flags of mode: encrypt - encryption mode, decrypt - decryption mode");
 }
 
-void show_start_message()
-{
- puts("Working... Please wait...");
-}
-
-void show_end_message()
+void show_message(const char *message)
 {
  putchar('\n');
- puts("Work finish");
+ puts(message);
 }
 
 void show_progress(const long long int start,const long long int end)
@@ -97,7 +91,7 @@ void check_memory(const void *memory)
 {
  if(memory==NULL)
  {
-  puts("Can't allocate memory");
+  show_message("Can't allocate memory");
   exit(6);
  }
 
@@ -109,7 +103,7 @@ int open_input_file(const char *name)
  file=open(name,INPUT_FILE_MODE,S_IRUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
-  puts("Can't open input file");
+  show_message("Can't open input file");
   exit(2);
  }
  return file;
@@ -121,7 +115,7 @@ int create_output_file(const char *name)
  file=open(name,OUTPUT_FILE_MODE,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
-  puts("Can't create output file");
+  show_message("Can't create output file");
   exit(3);
  }
  return file;
@@ -144,8 +138,7 @@ void read_data(const int target,void *buffer,const size_t amount)
 {
  if (read(target,buffer,amount)==-1)
   {
-   putchar('\n');
-   puts("Can't read data!");
+   show_message("Can't read data!");
    exit(4);
   }
 
@@ -155,8 +148,7 @@ void write_data(const int target,void *buffer,const size_t amount)
 {
  if (write(target,buffer,amount)==-1)
   {
-   putchar('\n');
-   puts("Can't write data!");
+   show_message("Can't write data!");
    exit(5);
   }
 
@@ -238,7 +230,7 @@ void check_signature(const char *signature)
 {
  if(strncmp(signature,"BEF",3)!=0)
  {
-  puts("Invalid cryptography container format");
+  show_message("Invalid cryptography container format");
   exit(7);
  }
 
@@ -276,9 +268,7 @@ void check_password_length(const char *key)
  length=strlen(key);
  if (length<2||length>255)
  {
-  puts("Invalid password length");
-  puts("Minimum password length: 2 character");
-  puts("Maximum password length: 255 character");
+  show_message("Invalid password length");
   exit(1);
  }
 
@@ -523,22 +513,22 @@ void work(const char *mode,const char *key,const char *target)
  {
   if(strcmp(mode,"decrypt")!=0)
   {
-   puts("Invalid mode flag");
+   show_message("Invalid mode flag");
    exit(8);
   }
 
  }
  if (strcmp(mode,"decrypt")==0)
  {
-  show_start_message();
+  show_message("Working... Please wait...");
   decrypt_file(target,key);
-  show_end_message();
+  show_message("Work finish");
  }
  if (strcmp(mode,"encrypt")==0)
  {
-  show_start_message();
+  show_message("Working... Please wait...");
   encrypt_file(target,key);
-  show_end_message();
+  show_message("Work finish");
  }
 
 }

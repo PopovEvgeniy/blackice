@@ -2,7 +2,7 @@
 
   Complex file cryptography tool(both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.6.5
+                          Version 1.6.7
 
 System requirement
 
@@ -49,7 +49,7 @@ Source code
 
 The program source code compiled under Open Watcom V2 Fork. But you can do it under any modern C compiler.
 Source code can be compiled for wide range operating systems, but you need to create makefile or build script by yourself.
-I provide only two things: compiled binary file for Windows and makefile for Linux.
+I provide only two things: compiled the binary file for Windows and makefile for Linux.
 
 Installation and uninstall under Linux
 
@@ -118,4 +118,4 @@ Version history
 1.5.6 - 1.6 - Performance improved.
 1.6.1 - 1.6.2 - Small changes.
 1.6.2.1 - Makefile update.
-1.6.3 - 1.6.5 - Small changes.
+1.6.3 - 1.6.7 - Small changes.
