@@ -32,8 +32,8 @@ short int encrypt_byte(const char source,const char *key,const size_t length,con
 char decrypt_block(short int source,const char *key,const size_t length,const short int plantium);
 char *create_decrypt_buffer();
 short int *create_encrypt_buffer();
-void encrypt_data(char *source,short int *target,const char *key,const size_t length,short int plantium,const size_t amount);
-void decrypt_data(short int *source,char *target,const char *key,const size_t length,short int plantium,const size_t amount);
+void encrypt_data(const char *source,short int *target,const char *key,const size_t length,const short int plantium,const size_t amount);
+void decrypt_data(const short int *source,char *target,const char *key,const size_t length,const short int plantium,const size_t amount);
 void encrypt_file(const char *target,const char *key);
 void decrypt_file(const char *target,const char *key);
 void work(const char *mode,const char *key,const char *target);
@@ -58,9 +58,9 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.6.8");
+ puts("Version 1.7");
  puts("Complex file cryptography tool(both encryption and decryption)");
- puts("Copyright by Popov Evgeniy Alekseyevich,2017-2022 years");
+ puts("Copyright by Popov Evgeniy Alekseyevich,2017-2023 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
 }
 
@@ -80,8 +80,7 @@ void show_message(const char *message)
 void show_progress(const long long int start,const long long int end)
 {
  long long int progress;
- progress=start+1;
- progress*=100;
+ progress=(start+1)*100;
  progress/=end;
  printf("\r");
  printf("Amount of processed bytes: %lld from %lld.Progress:%lld%%",start,end,progress);
@@ -91,7 +90,7 @@ void check_memory(const void *memory)
 {
  if(memory==NULL)
  {
-  puts("Can't allocate memory");
+  show_message("Can't allocate memory");
   exit(6);
  }
 
@@ -103,7 +102,7 @@ int open_input_file(const char *name)
  file=open(name,INPUT_FILE_MODE,S_IRUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
-  puts("Can't open input file");
+  show_message("Can't open input file");
   exit(2);
  }
  return file;
@@ -115,7 +114,7 @@ int create_output_file(const char *name)
  file=open(name,OUTPUT_FILE_MODE,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
-  puts("Can't create output file");
+  show_message("Can't create output file");
   exit(3);
  }
  return file;
@@ -230,7 +229,7 @@ void check_signature(const char *signature)
 {
  if(strncmp(signature,"BEF",3)!=0)
  {
-  puts("Invalid cryptography container format");
+  show_message("Invalid cryptography container format");
   exit(7);
  }
 
@@ -322,8 +321,14 @@ short int get_iron_key(const char *key,const size_t length)
  static size_t tail=0;
  static size_t head=0;
  short int result;
- if (tail==length-1) tail=0;
- if (head==0) head=length-1;
+ if (tail==length-1)
+ {
+  tail=0;
+ }
+ if (head==0)
+ {
+  head=length-1;
+ }
  result=key[tail];
  result+=key[head];
  ++tail;
@@ -391,7 +396,7 @@ short int *create_encrypt_buffer()
  return result;
 }
 
-void encrypt_data(char *source,short int *target,const char *key,const size_t length,short int plantium,const size_t amount)
+void encrypt_data(const char *source,short int *target,const char *key,const size_t length,const short int plantium,const size_t amount)
 {
  size_t index;
  for (index=0;index<amount;++index)
@@ -401,7 +406,7 @@ void encrypt_data(char *source,short int *target,const char *key,const size_t le
 
 }
 
-void decrypt_data(short int *source,char *target,const char *key,const size_t length,short int plantium,const size_t amount)
+void decrypt_data(const short int *source,char *target,const char *key,const size_t length,const short int plantium,const size_t amount)
 {
  size_t index;
  for (index=0;index<amount;++index)
