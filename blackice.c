@@ -58,7 +58,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.7");
+ puts("Version 1.7.1");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2023 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -279,7 +279,7 @@ char get_key(const char *key,const size_t length)
 {
  char result;
  static size_t position=0;
- if (position==length-1)
+ if (position==length)
  {
   position=0;
  }
