@@ -58,9 +58,9 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.7.1");
+ puts("Version 1.7.3");
  puts("Complex file cryptography tool(both encryption and decryption)");
- puts("Copyright by Popov Evgeniy Alekseyevich,2017-2023 years");
+ puts("Copyright by Popov Evgeniy Alekseyevich,2017-2024 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
 }
 
@@ -90,7 +90,7 @@ void check_memory(const void *memory)
 {
  if(memory==NULL)
  {
-  show_message("Can't allocate memory");
+  puts("Can't allocate memory");
   exit(6);
  }
 
@@ -102,7 +102,7 @@ int open_input_file(const char *name)
  file=open(name,INPUT_FILE_MODE,S_IRUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
-  show_message("Can't open input file");
+  puts("Can't open input file");
   exit(2);
  }
  return file;
@@ -114,7 +114,7 @@ int create_output_file(const char *name)
  file=open(name,OUTPUT_FILE_MODE,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
  if (file==-1)
  {
-  show_message("Can't create output file");
+  puts("Can't create output file");
   exit(3);
  }
  return file;
@@ -229,7 +229,7 @@ void check_signature(const char *signature)
 {
  if(strncmp(signature,"BEF",3)!=0)
  {
-  show_message("Invalid cryptography container format");
+  puts("Invalid cryptography container format");
   exit(7);
  }
 
