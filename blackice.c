@@ -58,7 +58,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.7.5");
+ puts("Version 1.7.6");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2024 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -123,14 +123,14 @@ int create_output_file(const char *name)
 long long int get_file_size(const int target)
 {
  long long int length;
- length=file_seek(target,0,SEEK_END);
- file_seek(target,0,SEEK_SET);
+ length=lseek64(target,0,SEEK_END);
+ lseek64(target,0,SEEK_SET);
  return length;
 }
 
 long long int file_tell(const int target)
 {
- return file_seek(target,0,SEEK_CUR);
+ return lseek64(target,0,SEEK_CUR);
 }
 
 void read_data(const int target,void *buffer,const size_t amount)
@@ -447,7 +447,7 @@ void encrypt_file(const char *target,const char *key)
  plantium=get_plantium_key(key,length);
  while (index<amount)
  {
-  if (amount-index<(long long int)blocks)
+  if ((amount-index)<(long long int)blocks)
   {
    blocks=(size_t)amount-(size_t)index;
    chunk=blocks*encrypted_block_size;
@@ -497,7 +497,7 @@ void decrypt_file(const char *target,const char *key)
  plantium=get_plantium_key(key,length);
  while (index<amount)
  {
-  if (amount-index<(long long int)chunk)
+  if ((amount-index)<(long long int)chunk)
   {
    blocks=((size_t)amount-(size_t)index)/encrypted_block_size;
    chunk=blocks*encrypted_block_size;
