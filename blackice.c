@@ -58,7 +58,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.7.6");
+ puts("Version 1.7.7");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2024 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");

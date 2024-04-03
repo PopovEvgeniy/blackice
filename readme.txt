@@ -2,7 +2,7 @@
 
   Complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.7.6
+                          Version 1.7.7
 
 System requirement
 
@@ -121,4 +121,4 @@ Version history
 1.7.1 -  Minor changes in cryptography algorithm.
 1.7.2 - Small changes.
 1.7.3 - Unix specific improvement: processor usage reduced.
-1.7.4 - 1.7.6 - Small changes.
+1.7.4 - 1.7.7 - Small changes.
