@@ -1,3 +1,5 @@
+#define BUFFER_LENGTH 1024
+
 typedef struct
 {
  char signature[4];

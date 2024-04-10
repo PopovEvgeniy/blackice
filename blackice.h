@@ -1,20 +1,24 @@
-#define BUFFER_LENGTH 1024
-
-#ifdef _WIN32
-#define INPUT_FILE_MODE O_RDONLY|O_BINARY
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_BINARY
-#define lseek64 _lseeki64
-#else
-#define _LARGEFILE64_SOURCE
-#define INPUT_FILE_MODE O_RDONLY|O_LARGEFILE
-#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_LARGEFILE
+#if defined _MSC_VER && _MSC_VER>=1400
+  #pragma warning(disable : 4996)
 #endif
 
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#ifdef _WIN32
+#include <io.h>
+#define INPUT_FILE_MODE O_RDONLY|O_BINARY
+#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_BINARY
+#define OUTPUT_FILE_PERMISSIONS S_IREAD|S_IWRITE
+#define lseek64 _lseeki64
+#else
 #include <unistd.h>
+#define _LARGEFILE64_SOURCE
+#define INPUT_FILE_MODE O_RDONLY|O_LARGEFILE
+#define OUTPUT_FILE_MODE O_CREAT|O_WRONLY|O_LARGEFILE
+#define OUTPUT_FILE_PERMISSIONS S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
+#endif

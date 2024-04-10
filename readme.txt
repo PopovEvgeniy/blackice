@@ -2,13 +2,13 @@
 
   Complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.7.7
+                          Version 1.7.9
 
 System requirement
 
 1 megabyte of free RAM.
 72 kilobytes free space on storage media.
-Operating system: Unix (Any Unix like system) or Windows (Windows 2000 or higher)
+Operating system: Unix (Any Unix like system) or Windows (Windows NT 4.0 or higher)
 
 Program description
 
@@ -121,4 +121,5 @@ Version history
 1.7.1 -  Minor changes in cryptography algorithm.
 1.7.2 - Small changes.
 1.7.3 - Unix specific improvement: processor usage reduced.
-1.7.4 - 1.7.7 - Small changes.
+1.7.4 - 1.7.8 - Small changes.
+1.7.9 - Visual C++ support improved.
