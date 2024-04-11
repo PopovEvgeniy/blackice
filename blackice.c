@@ -58,7 +58,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.8.3");
+ puts("Version 1.8.4");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2024 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -449,7 +449,7 @@ void encrypt_file(const char *target,const char *key)
  {
   if ((amount-index)<(long long int)blocks)
   {
-   blocks=(size_t)amount-(size_t)index;
+   blocks=(size_t)(amount-index);
    chunk=blocks*encrypted_block_size;
   }
   read_data(input,decrypted,blocks);
@@ -499,7 +499,7 @@ void decrypt_file(const char *target,const char *key)
  {
   if ((amount-index)<(long long int)chunk)
   {
-   blocks=((size_t)amount-(size_t)index)/encrypted_block_size;
+   blocks=(size_t)(amount-index)/encrypted_block_size;
    chunk=blocks*encrypted_block_size;
   }
   read_data(input,encrypted,chunk);
