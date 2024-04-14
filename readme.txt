@@ -2,7 +2,7 @@
 
   Complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.8.4
+                          Version 1.8.6
 
 System requirement
 
@@ -125,3 +125,4 @@ Version history
 1.7.9 - Visual C++ support improved.
 1.8 - 1.8.3 - Small changes.
 1.8.4 - Small bug fixed.
+1.8.5 - 1.8.6 - Small changes.

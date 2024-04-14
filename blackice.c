@@ -38,7 +38,6 @@ void encrypt_file(const char *target,const char *key);
 void decrypt_file(const char *target,const char *key);
 void work(const char *mode,const char *key,const char *target);
 
-
 int main(int argc, char *argv[])
 {
  show_intro();
@@ -58,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.8.4");
+ puts("Version 1.8.6");
  puts("Complex file cryptography tool(both encryption and decryption)");
  puts("Copyright by Popov Evgeniy Alekseyevich,2017-2024 years");
  puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
@@ -83,7 +82,7 @@ void show_progress(const long long int start,const long long int end)
  progress=(start+1)*100;
  progress/=end;
  printf("\r");
- printf("Amount of processed bytes: %lld from %lld.Progress:%lld%%",start,end,progress);
+ printf("Amount of processed bytes: %lld from %lld.Progress:%lld%%",start+1,end,progress);
 }
 
 void check_memory(const void *memory)
@@ -420,7 +419,7 @@ void encrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,amount;
- size_t blocks,length,chunk,encrypted_block_size;
+ size_t blocks,length;
  short int plantium;
  short int *encrypted=NULL;
  char *decrypted;
@@ -440,21 +439,18 @@ void encrypt_file(const char *target,const char *key)
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
  blocks=BUFFER_LENGTH;
- encrypted_block_size=sizeof(short int);
- chunk=blocks*encrypted_block_size;
  index=0;
  length=strlen(key);
  plantium=get_plantium_key(key,length);
  while (index<amount)
  {
-  if ((amount-index)<(long long int)blocks)
+  if ((amount-index)<BUFFER_LENGTH)
   {
    blocks=(size_t)(amount-index);
-   chunk=blocks*encrypted_block_size;
   }
   read_data(input,decrypted,blocks);
   encrypt_data(decrypted,encrypted,key,length,plantium,blocks);
-  write_data(output,encrypted,chunk);
+  write_data(output,encrypted,sizeof(short int)*blocks);
   index=file_tell(input);
   show_progress(index,amount);
  }
@@ -468,7 +464,7 @@ void decrypt_file(const char *target,const char *key)
 {
  int input,output;
  long long int index,amount;
- size_t blocks,length,chunk,encrypted_block_size;
+ size_t blocks,length,chunk;
  short int plantium;
  blackice_head head;
  short int *encrypted=NULL;
@@ -490,8 +486,7 @@ void decrypt_file(const char *target,const char *key)
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
  blocks=BUFFER_LENGTH;
- encrypted_block_size=sizeof(short int);
- chunk=blocks*encrypted_block_size;
+ chunk=sizeof(short int)*blocks;
  index=0;
  length=strlen(key);
  plantium=get_plantium_key(key,length);
@@ -499,8 +494,8 @@ void decrypt_file(const char *target,const char *key)
  {
   if ((amount-index)<(long long int)chunk)
   {
-   blocks=(size_t)(amount-index)/encrypted_block_size;
-   chunk=blocks*encrypted_block_size;
+   blocks=(size_t)(amount-index)/sizeof(short int);
+   chunk=blocks*sizeof(short int);
   }
   read_data(input,encrypted,chunk);
   decrypt_data(encrypted,decrypted,key,length,plantium,blocks);
