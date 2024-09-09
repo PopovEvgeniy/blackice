@@ -126,4 +126,4 @@ Version history
 1.8 — 1.8.3 — Small changes.
 1.8.4 — Small bug fixed.
 1.8.5 — 1.8.6 — Small changes.
-1.8.5.1 — Documentation update.
+1.8.6.1 — Documentation update.
