@@ -57,17 +57,16 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.8.6");
- puts("Complex file cryptography tool(both encryption and decryption)");
- puts("Copyright by Popov Evgeniy Alekseyevich,2017-2024 years");
- puts("This program distributed under GNU GENERAL PUBLIC LICENSE");
+ puts("Version 1.8.7");
+ puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2024 years");
+ puts("This program is distributed under GNU GENERAL PUBLIC LICENSE");
 }
 
 void command_line_help()
 {
  putchar('\n');
- puts("You must give 3 command line arguments: mode,password,target file name");
- puts("The flags of mode: encrypt - encryption mode, decrypt - decryption mode");
+ puts("You must give 3 command-line arguments: the mode,a password, a file name");
+ puts("The mode: encrypt - encryption mode, decrypt - decryption mode");
 }
 
 void show_message(const char *message)
@@ -82,7 +81,7 @@ void show_progress(const long long int start,const long long int end)
  progress=(start+1)*100;
  progress/=end;
  printf("\r");
- printf("Amount of processed bytes: %lld from %lld.Progress:%lld%%",start+1,end,progress);
+ printf("Amount of the processed bytes: %lld from %lld.Progress:%lld%%",start+1,end,progress);
 }
 
 void check_memory(const void *memory)
@@ -101,7 +100,7 @@ int open_input_file(const char *name)
  file=open(name,INPUT_FILE_MODE);
  if (file==-1)
  {
-  puts("Can't open input file");
+  puts("Can't open the input file");
   exit(2);
  }
  return file;
@@ -113,7 +112,7 @@ int create_output_file(const char *name)
  file=open(name,OUTPUT_FILE_MODE,OUTPUT_FILE_PERMISSIONS);
  if (file==-1)
  {
-  puts("Can't create output file");
+  puts("Can't create the output file");
   exit(3);
  }
  return file;
@@ -228,7 +227,7 @@ void check_signature(const char *signature)
 {
  if(strncmp(signature,"BEF",3)!=0)
  {
-  puts("Invalid cryptography container format");
+  puts("Invalid format");
   exit(7);
  }
 
@@ -267,8 +266,8 @@ void check_password_length(const char *key)
  if (length<2||length>255)
  {
   puts("Invalid password length");
-  puts("Minimum password length: 2 character");
-  puts("Maximum password length: 255 character");
+  puts("The minimum password length is 2 characters");
+  puts("The maximum password length is 255 characters");
   exit(1);
  }
 
@@ -515,7 +514,7 @@ void work(const char *mode,const char *key,const char *target)
  {
   if(strcmp(mode,"decrypt")!=0)
   {
-   show_message("Invalid mode flag");
+   show_message("Invalid mode");
    exit(8);
   }
 
@@ -524,13 +523,13 @@ void work(const char *mode,const char *key,const char *target)
  {
   show_message("Working... Please wait...");
   decrypt_file(target,key);
-  show_message("Work finish");
+  show_message("The work has been finished");
  }
  if (strcmp(mode,"encrypt")==0)
  {
   show_message("Working... Please wait...");
   encrypt_file(target,key);
-  show_message("Work finish");
+  show_message("The work has been finished");
  }
 
 }
