@@ -57,8 +57,8 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.8.8");
- puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2024 years");
+ puts("Version 1.9");
+ puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under GNU GENERAL PUBLIC LICENSE");
 }
 
@@ -263,7 +263,7 @@ void check_password_length(const char *key)
 {
  size_t length;
  length=strlen(key);
- if (length<2||length>255)
+ if ((length<2)||(length>255))
  {
   puts("Invalid password length");
   puts("The minimum password length is 2 characters");
@@ -290,7 +290,7 @@ short int get_primary_key(const char *key,const size_t length)
 {
  short int result;
  static size_t index=0;
- if (index==length-1)
+ if (index==(length-1))
  {
   index=0;
  }
@@ -304,7 +304,7 @@ short int get_silver_key(const char *key,const size_t length)
 {
  short int result;
  static size_t index=0;
- if (index==length-1)
+ if (index==(length-1))
  {
   index=0;
  }
@@ -319,7 +319,7 @@ short int get_iron_key(const char *key,const size_t length)
  static size_t tail=0;
  static size_t head=0;
  short int result;
- if (tail==length-1)
+ if (tail==(length-1))
  {
   tail=0;
  }
@@ -341,7 +341,7 @@ short int get_cobalt_key(const char *key,const size_t length)
  result=0;
  for(index=0;index<length;++index)
  {
-  result+=key[index];
+  result+=~key[index];
  }
  return result;
 }
@@ -351,11 +351,11 @@ short int get_gold_key(const char *key,const size_t length)
  size_t index;
  short int result;
  result=0;
- for (index=length;index>0;--index)
+ for (index=1;index<length;++index)
  {
   result+=key[index]^key[index-1];
  }
- return result;
+ return ~result;
 }
 
 short int get_plantium_key(const char *key,const size_t length)

@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.8.8
+                          Version 1.9
 
 System requirements
 
@@ -99,7 +99,7 @@ Version history
 0.9.6.7-0.9.6.8: The small changes.
 0.9.6.9-0.9.8: The cryptography algorithm has been changed.
 0.9.9-1.0.2: The small changes.
-1.0.3: The program was speedup.
+1.0.3: The program was speed up.
 1.0.4-1.1.1: The small changes.
 1.1.2: The memory usage has been reduced.
 1.1.3-1.1.4: The small changes.
@@ -111,7 +111,7 @@ Version history
 1.3: The small changes in the cryptography algorithm.
 1.3.1: The small changes.
 1.4-1.5: The cryptography algorithm has been changed.
-1.5.1-1.5.4:The small changes.
+1.5.1-1.5.4: The small changes.
 1.5.5: The cryptography algorithm has been changed.
 1.5.5.1: The source code was recompiled under Open Watcom V2 Fork.
 1.5.6-1.6: The performance has improved.
@@ -130,3 +130,5 @@ Version history
 1.8.7: The small changes.
 1.8.7.1-1.8.7.2: The documentation has been updated.
 1.8.8: The source code was recompiled under Tiny C Compiler.
+1.8.9: The small changes in the cryptography algorithm.
+1.9: The small changes.
