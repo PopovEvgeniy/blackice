@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.9
+                          Version 1.9.3
 
 System requirements
 
@@ -131,4 +131,4 @@ Version history
 1.8.7.1-1.8.7.2: The documentation has been updated.
 1.8.8: The source code was recompiled under Tiny C Compiler.
 1.8.9: The small changes in the cryptography algorithm.
-1.9: The small changes.
+1.9-1.9.3: The small changes.
