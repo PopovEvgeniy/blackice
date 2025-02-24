@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.9.3
+                          Version 1.9.6
 
 System requirements
 
@@ -12,7 +12,7 @@ Operating system: Unix (any Unix-like system) or Windows (Windows XP or higher)
 
 Program description
 
-This program lets you encrypt and decrypt your files. It uses a strong cryptography algorithm.
+This program lets you encrypt and decrypt your files. It uses a custom cryptography algorithm.
 
 Some remarks about encryption and decryption
 
@@ -131,4 +131,6 @@ Version history
 1.8.7.1-1.8.7.2: The documentation has been updated.
 1.8.8: The source code was recompiled under Tiny C Compiler.
 1.8.9: The small changes in the cryptography algorithm.
-1.9-1.9.3: The small changes.
+1.9-1.9.4: The small changes.
+1.9.5: The small changes in the cryptography algorithm.
+1.9.6: The small changes.

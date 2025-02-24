@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.9.3");
+ puts("Version 1.9.6");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under GNU GENERAL PUBLIC LICENSE");
 }
@@ -81,7 +81,7 @@ void show_progress(const long long int start,const long long int end)
  progress=(start+1)*100;
  progress/=end;
  printf("\r");
- printf("Amount of the processed bytes: %lld from %lld.Progress:%lld%%",start+1,end,progress);
+ printf("Amount of the processed bytes: %lld from %lld.Progress:%lld%%",start,end,progress);
 }
 
 void check_memory(const void *memory)
@@ -277,7 +277,7 @@ char get_key(const char *key,const size_t length)
  }
  result=key[position];
  ++position;
- return result;
+ return ~result;
 }
 
 short int get_primary_key(const char *key,const size_t length)
@@ -374,10 +374,7 @@ char decrypt_block(short int source,const char *key,const size_t length,const sh
 
 char *create_decrypt_buffer()
 {
- char *result=NULL;
- result=(char*)calloc(BUFFER_LENGTH,sizeof(char));
- check_memory(result);
- return result;
+ return get_string_memory(BUFFER_LENGTH-1);
 }
 
 short int *create_encrypt_buffer()
