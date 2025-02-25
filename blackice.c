@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 1.9.6");
+ puts("Version 1.9.7");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under GNU GENERAL PUBLIC LICENSE");
 }
@@ -302,8 +302,7 @@ short int get_silver_key(const char *key,const size_t length)
  {
   index=0;
  }
- result=key[index];
- result*=key[index+1];
+ result=key[index]^key[index+1];
  ++index;
  return result;
 }
@@ -322,7 +321,7 @@ short int get_iron_key(const char *key,const size_t length)
   head=length-1;
  }
  result=key[tail];
- result+=key[head];
+ result*=key[head];
  ++tail;
  --head;
  return result;
