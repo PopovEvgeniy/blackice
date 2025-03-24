@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 1.9.7
+                          Version 2.0
 
 System requirements
 
@@ -99,7 +99,7 @@ Version history
 0.9.6.7-0.9.6.8: The small changes.
 0.9.6.9-0.9.8: The cryptography algorithm has been changed.
 0.9.9-1.0.2: The small changes.
-1.0.3: The program was speed up.
+1.0.3: The program was sped up.
 1.0.4-1.1.1: The small changes.
 1.1.2: The memory usage has been reduced.
 1.1.3-1.1.4: The small changes.
@@ -134,4 +134,4 @@ Version history
 1.9-1.9.4: The small changes.
 1.9.5: The small changes in the cryptography algorithm.
 1.9.6: The small changes.
-1.9.7: The small changes in the cryptography algorithm.
+1.9.7-2.0: The small changes in the cryptography algorithm.
