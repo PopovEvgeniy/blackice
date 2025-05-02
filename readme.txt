@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0
+                          Version 2.0.1
 
 System requirements
 
@@ -52,17 +52,13 @@ I provide only two things: the binary file for Windows and the makefile for Linu
 
 Install and uninstall under Linux
 
-Installation steps:
+Follow these steps:
 
 1. Extract the content of the source code archive.
 2. Open a terminal and go to the source code directory.
-3. Run as root: make install
-
-Uninstall steps:
-
-1. Extract the content of the source code archive.
-2. Open a terminal and go to the source code directory.
-3. Run as root: make uninstall
+3.
+Run as root for install: make install
+Run as root for uninstall: make uninstall
 
 Contact
 
@@ -135,3 +131,4 @@ Version history
 1.9.5: The small changes in the cryptography algorithm.
 1.9.6: The small changes.
 1.9.7-2.0: The small changes in the cryptography algorithm.
+2.0.1: The code portability has improved.

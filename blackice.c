@@ -9,7 +9,6 @@ void check_memory(const void *memory);
 int open_input_file(const char *name);
 int create_output_file(const char *name);
 long long int get_file_size(const int target);
-long long int file_tell(const int target);
 void read_data(const int target,void *buffer,const size_t amount);
 void write_data(const int target,void *buffer,const size_t amount);
 char *get_string_memory(const size_t length);
@@ -58,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.0");
+ puts("Version 2.0.1");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under GNU GENERAL PUBLIC LICENSE");
 }
@@ -122,14 +121,9 @@ int create_output_file(const char *name)
 long long int get_file_size(const int target)
 {
  long long int length;
- length=lseek64(target,0,SEEK_END);
- lseek64(target,0,SEEK_SET);
+ length=file_seek(target,0,SEEK_END);
+ file_seek(target,0,SEEK_SET);
  return length;
-}
-
-long long int file_tell(const int target)
-{
- return lseek64(target,0,SEEK_CUR);
 }
 
 void read_data(const int target,void *buffer,const size_t amount)
@@ -462,7 +456,7 @@ void encrypt_file(const char *target,const char *key)
   read_data(input,decrypted,blocks);
   encrypt_data(decrypted,encrypted,key,length,plantium,blocks);
   write_data(output,encrypted,sizeof(short int)*blocks);
-  index=file_tell(input);
+  index=file_seek(input,0,SEEK_CUR);
   show_progress(index,amount);
  }
  free(encrypted);
@@ -511,7 +505,7 @@ void decrypt_file(const char *target,const char *key)
   read_data(input,encrypted,chunk);
   decrypt_data(encrypted,decrypted,key,length,plantium,blocks);
   write_data(output,decrypted,blocks);
-  index=file_tell(input);
+  index=file_seek(input,0,SEEK_CUR);
   show_progress(index,amount);
  }
  free(encrypted);
