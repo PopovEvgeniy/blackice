@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.1
+                          Version 2.0.1.1
 
 System requirements
 
@@ -42,7 +42,7 @@ Exit codes
 
 License
 
-This program is distributed under GNU GENERAL PUBLIC LICENSE.
+This program is distributed under the GNU GENERAL PUBLIC LICENSE.
 
 Source code
 
@@ -59,10 +59,6 @@ Follow these steps:
 3.
 Run as root for install: make install
 Run as root for uninstall: make uninstall
-
-Contact
-
-You can send me a letter at tuzik87@inbox.ru.
 
 Thanks
 
@@ -132,3 +128,4 @@ Version history
 1.9.6: The small changes.
 1.9.7-2.0: The small changes in the cryptography algorithm.
 2.0.1: The code portability has improved.
+2.0.1.1: The documentation has been updated.
