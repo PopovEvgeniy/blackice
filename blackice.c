@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.0.2");
+ puts("Version 2.0.3");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -520,7 +520,7 @@ void work(const char *mode,const char *key,const char *target)
  {
   if(strcmp(mode,"decrypt")!=0)
   {
-   show_message("Invalid mode");
+   show_message("The invalid mode");
    exit(8);
   }
 
