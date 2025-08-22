@@ -57,9 +57,9 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.0.1");
+ puts("Version 2.0.2");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
- puts("This program is distributed under GNU GENERAL PUBLIC LICENSE");
+ puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
 
 void command_line_help()
@@ -81,7 +81,7 @@ void show_progress(const long long int start,const long long int end)
  progress=(start+1)*100;
  progress/=end;
  printf("\r");
- printf("Amount of the processed bytes: %lld from %lld.Progress:%lld%%",start,end,progress);
+ printf("Amount of the processed bytes: %lld from %lld.The progress:%lld%%",start,end,progress);
 }
 
 void check_memory(const void *memory)
@@ -216,7 +216,7 @@ void check_signature(const char *signature)
 {
  if(strncmp(signature,"BEF",3)!=0)
  {
-  puts("Invalid format");
+  puts("The invalid format");
   exit(7);
  }
 
@@ -254,7 +254,7 @@ void check_password_length(const char *key)
  length=strlen(key);
  if ((length<2)||(length>255))
  {
-  puts("Invalid password length");
+  puts("The password length is invalid");
   puts("The minimum password length is 2 characters");
   puts("The maximum password length is 255 characters");
   exit(1);

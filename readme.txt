@@ -2,13 +2,13 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.1.1
+                          Version 2.0.2
 
 System requirements
 
 1 megabyte of free RAM.
 44 kilobytes of free space on storage media.
-Operating system: Unix (any Unix-like system) or Windows (Windows XP or higher)
+Operating system: Unix (any Unix-like system) or Windows (Windows 2000 or higher)
 
 Program description
 
@@ -30,15 +30,15 @@ The modes are: encrypt — encryption mode, decrypt — decryption mode.
 
 Exit codes
 
-0: Operation was successfully completed.
-1: Invalid password length.
+0: The operation was successfully completed.
+1: The password length is invalid.
 2: Can't open the input file.
 3: Can't create the output file.
 4: Can't read data.
 5: Can't write data.
 6: Can't allocate memory.
-7: Invalid format.
-8: Invalid mode.
+7: The invalid format.
+8: The invalid mode.
 
 License
 
@@ -129,3 +129,4 @@ Version history
 1.9.7-2.0: The small changes in the cryptography algorithm.
 2.0.1: The code portability has improved.
 2.0.1.1: The documentation has been updated.
+2.0.2: The small changes.

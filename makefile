@@ -1,8 +1,8 @@
-﻿install:
+install:
 	@echo Installation in progress. Please wait
 	@$(CC) blackice.c -g0 -O0 -o /bin/blackice
 	@chmod ugo+rx /bin/blackice
-	@echo Installation successfully complete
+	@echo Installation was successfully completed
 uninstall:
 	@rm -f /bin/blackice
-	@echo Uninstallation successfully complete
+	@echo Uninstallation was successfully completed
