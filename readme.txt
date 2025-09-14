@@ -2,33 +2,33 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.3.1
+                          Version 2.0.3.2
 
-System requirements
+System requirements.
 
 1 megabyte of free RAM.
-76 kilobytes of free space on storage media.
-Operating system: Unix (any Unix-like system) or Windows (Windows 2000 or higher)
+76 kilobytes of free space on the storage medium.
+Operating system: Unix (any Unix-like system) or Windows (Windows 2000 or higher).
 
-Program description
+The program description.
 
 This program lets you encrypt and decrypt your files. It uses a custom cryptography algorithm.
 
-Some remarks about encryption and decryption
+Some remarks about encryption and decryption.
 
 An encrypted file is twice the size of the original file. A decrypted file has a normal size.
 An output file will be created before starting the encryption or decryption process.
 
-Password limitation
+The password limitation.
 
 The minimum password length is 2 characters. The maximum password length is 255 characters.
 
-Command-line arguments
+The command-line arguments.
 
 This program takes 3 command-line arguments: the mode, a password, and a file name.
 The modes are: encrypt — encryption mode, decrypt — decryption mode.
 
-Exit codes
+Exit codes.
 
 0: The operation was successfully completed.
 1: The password length is invalid.
@@ -40,17 +40,17 @@ Exit codes
 7: The invalid format.
 8: The invalid mode.
 
-License
+License.
 
 This program is distributed under the GNU GENERAL PUBLIC LICENSE.
 
-Source code
+The source code.
 
 The code was compiled under Tiny C Compiler. But you can do it with any modern C compiler.
 The source code can be compiled for a wide range of operating systems, but you need to create a makefile or a build script by yourself.
 I provide only two things: the binary file for Windows and the makefile for Linux.
 
-Install and uninstall under Linux
+Install and uninstall under Linux.
 
 Follow these steps:
 
@@ -60,7 +60,7 @@ Follow these steps:
 Run as root for install: make install
 Run as root for uninstall: make uninstall
 
-Thanks
+Thanks.
 
 I want to say «Big thanks for the technical consultation» to these people:
 
@@ -71,9 +71,9 @@ FDDVORON
 Nikodim
 Oleq Pazdnikov
 
-Version history
+Version history.
 
-0.1: Initial version.
+0.1: The initial version.
 0.2-0.8: The small changes.
 0.9: The old versions of Windows support have been dropped. Linux support has been added. The file size limit has increased.
 0.9.1: The small changes.
@@ -130,4 +130,4 @@ Version history
 2.0.1: The code portability has improved.
 2.0.1.1: The documentation has been updated.
 2.0.2-2.0.3: The small changes.
-2.0.3.1: The documentation has been updated.
+2.0.3.1-2.0.3.2: The documentation has been updated.
