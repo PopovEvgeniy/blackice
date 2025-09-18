@@ -2,12 +2,11 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.3.2
+                          Version 2.0.3.3
 
 System requirements.
 
 1 megabyte of free RAM.
-76 kilobytes of free space on the storage medium.
 Operating system: Unix (any Unix-like system) or Windows (Windows 2000 or higher).
 
 The program description.
@@ -130,4 +129,4 @@ Version history.
 2.0.1: The code portability has improved.
 2.0.1.1: The documentation has been updated.
 2.0.2-2.0.3: The small changes.
-2.0.3.1-2.0.3.2: The documentation has been updated.
+2.0.3.1-2.0.3.3: The documentation has been updated.
