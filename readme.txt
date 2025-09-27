@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.3.3
+                          Version 2.0.4
 
 System requirements.
 
@@ -25,7 +25,7 @@ The minimum password length is 2 characters. The maximum password length is 255 
 The command-line arguments.
 
 This program takes 3 command-line arguments: the mode, a password, and a file name.
-The modes are: encrypt — encryption mode, decrypt — decryption mode.
+The modes are: encrypt - encryption mode, decrypt - decryption mode.
 
 Exit codes.
 
@@ -61,7 +61,7 @@ Run as root for uninstall: make uninstall
 
 Thanks.
 
-I want to say «Big thanks for the technical consultation» to these people:
+I want to say <Big thanks for the technical consultation> to these people:
 
 BlackBird
 Astyanax
@@ -130,3 +130,4 @@ Version history.
 2.0.1.1: The documentation has been updated.
 2.0.2-2.0.3: The small changes.
 2.0.3.1-2.0.3.3: The documentation has been updated.
+2.0.4: The small changes.
