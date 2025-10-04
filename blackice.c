@@ -15,7 +15,7 @@ char *get_string_memory(const size_t length);
 size_t get_extension_position(const char *source);
 char *get_short_name(const char *name);
 char *get_extension(const char *name);
-char* get_name(const char *name,const char *ext);
+char *get_name(const char *name,const char *ext);
 void check_signature(const char *signature);
 blackice_head read_head(const int target);
 void write_container_data(const int target,const char *extension);
@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.0.4");
+ puts("Version 2.0.5");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -192,7 +192,7 @@ char *get_extension(const char *name)
  return result;
 }
 
-char* get_name(const char *name,const char *ext)
+char *get_name(const char *name,const char *ext)
 {
   char *result=NULL;
   size_t length;
@@ -351,7 +351,7 @@ short int get_cobalt_key(const char *key,const size_t length)
  {
   result+=key[index];
  }
- return result;
+ return ~result;
 }
 
 short int get_gold_key(const char *key,const size_t length)
