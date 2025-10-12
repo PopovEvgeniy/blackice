@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.5
+                          Version 2.0.6
 
 System requirements.
 
@@ -16,7 +16,7 @@ This program lets you encrypt and decrypt your files. It uses a custom cryptogra
 Some remarks about encryption and decryption.
 
 An encrypted file is twice the size of the original file. A decrypted file has a normal size.
-An output file will be created before starting the encryption or decryption process.
+The output file will be created if needed.
 
 The password limitation.
 
@@ -132,3 +132,4 @@ Version history.
 2.0.3.1-2.0.3.3: The documentation has been updated.
 2.0.4: The small changes.
 2.0.5: The small changes in the cryptography algorithm.
+2.0.6: The small changes.

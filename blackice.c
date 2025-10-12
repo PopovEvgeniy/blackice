@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.0.5");
+ puts("Version 2.0.6");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -65,7 +65,7 @@ void show_intro()
 void command_line_help()
 {
  putchar('\n');
- puts("You must give 3 command-line arguments: the mode,a password, a file name");
+ puts("You must give 3 command-line arguments: the mode,a password, and a file name");
  puts("The mode: encrypt - encryption mode, decrypt - decryption mode");
 }
 
@@ -232,15 +232,16 @@ blackice_head read_head(const int target)
 void write_container_data(const int target,const char *extension)
 {
  blackice_head head;
- memset(&head,0,sizeof(blackice_head));
  strncpy(head.signature,"BEF",3);
+ head.signature[3]=0;
+ head.extension=0;
  if(extension==NULL)
  {
   write(target,&head,sizeof(blackice_head));
  }
  else
  {
-  head.extension=(unsigned long int)strlen(extension);
+  head.extension=strlen(extension);
   write(target,&head,sizeof(blackice_head));
   write(target,extension,head.extension);
  }
