@@ -5,21 +5,21 @@ void show_intro();
 void command_line_help();
 void show_message(const char *message);
 void show_progress(const long long int start,const long long int end);
-void check_memory(const void *memory);
+void check_password_length(const char *key);
 int open_input_file(const char *name);
 int create_output_file(const char *name);
-long long int get_file_size(const int target);
 void read_data(const int target,void *buffer,const size_t amount);
-void write_data(const int target,void *buffer,const size_t amount);
+void write_data(const int target,const void *buffer,const size_t amount);
+void check_memory(const void *memory);
+void check_signature(const char *signature);
+long long int get_file_size(const int target);
 char *get_string_memory(const size_t length);
 size_t get_extension_position(const char *source);
 char *get_short_name(const char *name);
 char *get_extension(const char *name);
 char *get_name(const char *name,const char *ext);
-void check_signature(const char *signature);
 blackice_head read_head(const int target);
 void write_container_data(const int target,const char *extension);
-void check_password_length(const char *key);
 char get_key(const char *key,const size_t length);
 short int get_primary_key(const char *key,const size_t length);
 short int get_silver_key(const char *key,const size_t length);
@@ -57,8 +57,8 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.0.6");
- puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2025 years");
+ puts("Version 2.1");
+ puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
 
@@ -77,53 +77,46 @@ void show_message(const char *message)
 
 void show_progress(const long long int start,const long long int end)
 {
- long long int progress;
- progress=(start+1)*100;
- progress/=end;
- printf("\r");
- printf("Amount of the processed bytes: %lld from %lld.The progress:%lld%%",start,end,progress);
+ putchar('\r');
+ printf("The amount of the processed bytes: %llu from %llu. The progress:%llu%%",start,end,(start*100)/end);
 }
 
-void check_memory(const void *memory)
+void check_password_length(const char *key)
 {
- if(memory==NULL)
+ size_t length;
+ length=strlen(key);
+ if ((length<2)||(length>255))
  {
-  puts("Can't allocate memory");
-  exit(6);
+  puts("The password length is invalid");
+  puts("The minimum password length is 2 characters");
+  puts("The maximum password length is 255 characters");
+  exit(1);
  }
 
 }
 
 int open_input_file(const char *name)
 {
- int file;
- file=open(name,INPUT_FILE_MODE);
- if (file==-1)
+ int target;
+ target=open(name,INPUT_FILE_MODE);
+ if (target==-1)
  {
   puts("Can't open the input file");
   exit(2);
  }
- return file;
+ return target;
 }
 
 int create_output_file(const char *name)
 {
- int file;
- file=open(name,OUTPUT_FILE_MODE,OUTPUT_FILE_PERMISSIONS);
- if (file==-1)
+ int target;
+ target=open(name,OUTPUT_FILE_MODE,OUTPUT_FILE_PERMISSIONS);
+ if (target==-1)
  {
   puts("Can't create the output file");
   exit(3);
  }
- return file;
-}
-
-long long int get_file_size(const int target)
-{
- long long int length;
- length=file_seek(target,0,SEEK_END);
- file_seek(target,0,SEEK_SET);
- return length;
+ return target;
 }
 
 void read_data(const int target,void *buffer,const size_t amount)
@@ -136,7 +129,7 @@ void read_data(const int target,void *buffer,const size_t amount)
 
 }
 
-void write_data(const int target,void *buffer,const size_t amount)
+void write_data(const int target,const void *buffer,const size_t amount)
 {
  if (write(target,buffer,amount)==-1)
   {
@@ -144,6 +137,34 @@ void write_data(const int target,void *buffer,const size_t amount)
    exit(5);
   }
 
+}
+
+void check_memory(const void *memory)
+{
+ if(memory==NULL)
+ {
+  puts("Can't allocate memory");
+  exit(6);
+ }
+
+}
+
+void check_signature(const char *signature)
+{
+ if(strncmp(signature,"BEF",3)!=0)
+ {
+  puts("The invalid format");
+  exit(7);
+ }
+
+}
+
+long long int get_file_size(const int target)
+{
+ long long int length;
+ length=file_seek(target,0,SEEK_END);
+ file_seek(target,0,SEEK_SET);
+ return length;
 }
 
 char *get_string_memory(const size_t length)
@@ -156,17 +177,18 @@ char *get_string_memory(const size_t length)
 
 size_t get_extension_position(const char *source)
 {
- size_t index;
- for(index=strlen(source);index>0;--index)
+ size_t index,position;
+ position=strlen(source);
+ for(index=position;index>0;--index)
  {
   if(source[index]=='.')
   {
+   position=index;
    break;
   }
 
  }
- if (index==0) index=strlen(source);
- return index;
+ return position;
 }
 
 char *get_short_name(const char *name)
@@ -211,16 +233,6 @@ char *get_name(const char *name,const char *ext)
  return result;
 }
 
-void check_signature(const char *signature)
-{
- if(strncmp(signature,"BEF",3)!=0)
- {
-  puts("The invalid format");
-  exit(7);
- }
-
-}
-
 blackice_head read_head(const int target)
 {
  blackice_head head;
@@ -244,20 +256,6 @@ void write_container_data(const int target,const char *extension)
   head.extension=strlen(extension);
   write(target,&head,sizeof(blackice_head));
   write(target,extension,head.extension);
- }
-
-}
-
-void check_password_length(const char *key)
-{
- size_t length;
- length=strlen(key);
- if ((length<2)||(length>255))
- {
-  puts("The password length is invalid");
-  puts("The minimum password length is 2 characters");
-  puts("The maximum password length is 255 characters");
-  exit(1);
  }
 
 }

@@ -2,11 +2,10 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.0.6
+                          Version 2.1
 
 System requirements.
 
-1 megabyte of free RAM.
 Operating system: Unix (any Unix-like system) or Windows (Windows 2000 or higher).
 
 The program description.
@@ -45,7 +44,7 @@ This program is distributed under the GNU GENERAL PUBLIC LICENSE.
 
 The source code.
 
-The code was compiled under Tiny C Compiler. But you can do it with any modern C compiler.
+The code was compiled under Open Watcom. But you can do it with any modern C compiler.
 The source code can be compiled for a wide range of operating systems, but you need to create a makefile or a build script by yourself.
 I provide only two things: the binary file for Windows and the makefile for Linux.
 
@@ -61,7 +60,7 @@ Run as root for uninstall: make uninstall
 
 Thanks.
 
-I want to say <Big thanks for the technical consultation> to these people:
+I want to say "Big thanks for the technical consultation" to these people:
 
 BlackBird
 Astyanax
@@ -133,3 +132,5 @@ Version history.
 2.0.4: The small changes.
 2.0.5: The small changes in the cryptography algorithm.
 2.0.6: The small changes.
+2.0.7: A small bug has been fixed.
+2.0.8-2.1: The small changes.
