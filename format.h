@@ -3,5 +3,5 @@
 typedef struct
 {
  char signature[4];
- unsigned int extension:32;
+ unsigned int extension;
 } blackice_head;
