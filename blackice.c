@@ -14,6 +14,7 @@ void check_memory(const void *memory);
 void check_signature(const char *signature);
 long long int get_file_size(const int target);
 char *get_string_memory(const size_t length);
+size_t get_path_delimitor_position(const char *source);
 size_t get_extension_position(const char *source);
 char *get_short_name(const char *name);
 char *get_extension(const char *name);
@@ -57,7 +58,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.1.4");
+ puts("Version 2.1.5");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -175,20 +176,33 @@ char *get_string_memory(const size_t length)
  return memory;
 }
 
-size_t get_extension_position(const char *source)
+size_t get_path_delimitor_position(const char *source)
 {
- size_t index,position;
- position=strlen(source);
- for(index=position;index>0;--index)
+ size_t index;
+ for (index=strlen(source);index>0;--index)
  {
-  if(source[index]=='.')
+  if ((source[index]=='\\')||(source[index]=='/'))
   {
-   position=index;
    break;
   }
 
  }
- return position;
+ return index;
+}
+
+size_t get_extension_position(const char *source)
+{
+ size_t index,length;
+ length=strlen(source);
+ for (index=get_path_delimitor_position(source);index<length;++index)
+ {
+  if (source[index]=='.')
+  {
+   break;
+  }
+
+ }
+ return index;
 }
 
 char *get_short_name(const char *name)
