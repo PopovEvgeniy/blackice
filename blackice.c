@@ -58,7 +58,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.1.5");
+ puts("Version 2.1.6");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -192,17 +192,19 @@ size_t get_path_delimitor_position(const char *source)
 
 size_t get_extension_position(const char *source)
 {
- size_t index,length;
- length=strlen(source);
- for (index=get_path_delimitor_position(source);index<length;++index)
+ size_t index,position,stop;
+ position=strlen(source);
+ stop=get_path_delimitor_position(source);
+ for (index=position;index>stop;--index)
  {
   if (source[index]=='.')
   {
+   position=index;
    break;
   }
 
  }
- return index;
+ return position;
 }
 
 char *get_short_name(const char *name)
