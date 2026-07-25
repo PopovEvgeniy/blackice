@@ -14,11 +14,10 @@ void check_memory(const void *memory);
 void check_signature(const char *signature);
 long long int get_file_size(const int target);
 char *get_string_memory(const size_t length);
-size_t get_path_length(const char *source);
-size_t get_extension_position(const char *source);
-char *get_short_name(const char *name);
+size_t get_name_without_extension_length(const char *source);
+char *get_name_without_extension(const char *name);
+char *get_name(const char *name,const char *extension);
 char *get_extension(const char *name);
-char *get_name(const char *name,const char *ext);
 blackice_head read_head(const int target);
 void write_container_data(const int target,const char *extension);
 char get_key(const char *key,const size_t length);
@@ -58,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.1.9");
+ puts("Version 2.2.3");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -84,7 +83,7 @@ void show_progress(const long long int start,const long long int end)
 
 void check_password_length(const char *key)
 {
- size_t length;
+ size_t length=0;
  length=strlen(key);
  if ((length<2)||(length>255))
  {
@@ -98,7 +97,12 @@ void check_password_length(const char *key)
 
 int open_input_file(const char *name)
 {
- int target;
+ int target=-1;
+ if (name==NULL)
+ {
+  puts("Can't open the input file");
+  exit(2);
+ }
  target=open(name,INPUT_FILE_MODE);
  if (target==-1)
  {
@@ -110,7 +114,12 @@ int open_input_file(const char *name)
 
 int create_output_file(const char *name)
 {
- int target;
+ int target=-1;
+ if (name==NULL)
+ {
+  puts("Can't create the output file");
+  exit(3);
+ }
  target=open(name,OUTPUT_FILE_MODE,OUTPUT_FILE_PERMISSIONS);
  if (target==-1)
  {
@@ -142,7 +151,7 @@ void write_data(const int target,const void *buffer,const size_t amount)
 
 void check_memory(const void *memory)
 {
- if(memory==NULL)
+ if (memory==NULL)
  {
   puts("Can't allocate memory");
   exit(6);
@@ -162,7 +171,7 @@ void check_signature(const char *signature)
 
 long long int get_file_size(const int target)
 {
- long long int length;
+ long long int length=0;
  length=file_seek(target,0,SEEK_END);
  file_seek(target,0,SEEK_SET);
  return length;
@@ -176,90 +185,93 @@ char *get_string_memory(const size_t length)
  return memory;
 }
 
-size_t get_path_length(const char *source)
+size_t get_name_without_extension_length(const char *source)
 {
- size_t index,length;
- length=0;
- for (index=strlen(source);index>0;--index)
+ size_t index=0;
+ size_t position=0;
+ size_t length=0;
+ if (source!=NULL)
  {
-  if ((source[index-1]=='\\')||(source[index-1]=='/'))
+  length=strlen(source);
+ }
+ for (index=length;index>0;--index)
+ {
+  position=index-1;
+  if (source[position]==DIRECTORY_SEPARATOR)
   {
-   length=index;
    break;
+  }
+  if (source[position]=='.')
+  {
+   if (position>0)
+   {
+    if ((source[position-1]!=DIRECTORY_SEPARATOR) && (source[position-1]!='.'))
+    {
+     length=position;
+     break;
+    }
+
+   }
+
   }
 
  }
  return length;
 }
 
-size_t get_extension_position(const char *source)
+char *get_name_without_extension(const char *name)
 {
- size_t index,position,stop;
- position=strlen(source);
- stop=get_path_length(source);
- if (stop>0)
+ char *result=NULL;
+ size_t length=0;
+ length=get_name_without_extension_length(name);
+ if (length>0)
  {
-  --stop;
+  result=get_string_memory(length);
+  strncpy(result,name,length);
  }
- for (index=position;index>stop;--index)
- {
-  if (source[index-1]=='.')
-  {
-   position=index-1;
-   break;
-  }
-
- }
- if (position==0)
- {
-  position=strlen(source);
- }
- if (position==(stop+1))
- {
-  position=strlen(source);
- }
- return position;
+ return result;
 }
 
-char *get_short_name(const char *name)
+char *get_name(const char *name,const char *extension)
 {
- size_t length;
- char *result=NULL;
- length=get_extension_position(name);
- result=get_string_memory(length);
- return strncpy(result,name,length);
+  char *result=NULL;
+  char *name_without_extension=NULL;
+  size_t name_length=0;
+  size_t extension_length=0;
+  name_without_extension=get_name_without_extension(name);
+  if (name_without_extension!=NULL)
+  {
+   name_length=strlen(name_without_extension);
+  }
+  if (extension!=NULL)
+  {
+   extension_length=strlen(extension);
+  }
+  if ((name_length>0) && (extension_length>0))
+  {
+   result=get_string_memory(name_length+extension_length);
+   strncpy(result,name_without_extension,name_length);
+   strncat(result,extension,extension_length);
+  }
+  free(name_without_extension);
+  return result;
 }
 
 char *get_extension(const char *name)
 {
  char *result=NULL;
- size_t position,amount;
- position=get_extension_position(name);
- amount=strlen(name)-position;
+ size_t position=0;
+ size_t amount=0;
+ position=get_name_without_extension_length(name);
+ if (name!=NULL)
+ {
+  amount=strlen(name)-position;
+ }
  if (amount>0)
  {
   result=get_string_memory(amount);
   strncpy(result,name+position,amount);
  }
- return result;
-}
-
-char *get_name(const char *name,const char *ext)
-{
-  char *result=NULL;
-  size_t length;
-  if(ext==NULL)
-  {
-   length=strlen(name);
-   result=get_string_memory(length);
-   strncpy(result,name,length);
-  }
-  else
-  {
-   length=strlen(name)+strlen(ext);
-   result=get_string_memory(length);
-   sprintf(result,"%s%s",name,ext);
-  }
  return result;
 }
 
@@ -277,7 +289,7 @@ void write_container_data(const int target,const char *extension)
  strncpy(head.signature,"BEF",3);
  head.signature[3]=0;
  head.extension=0;
- if(extension==NULL)
+ if (extension==NULL)
  {
   write(target,&head,sizeof(blackice_head));
  }
@@ -292,7 +304,7 @@ void write_container_data(const int target,const char *extension)
 
 char get_key(const char *key,const size_t length)
 {
- char result;
+ char result=0;
  static size_t position=0;
  if (position==length)
  {
@@ -305,7 +317,7 @@ char get_key(const char *key,const size_t length)
 
 short int get_primary_key(const char *key,const size_t length)
 {
- short int result;
+ short int result=0;
  static size_t index=0;
  if (index==(length-1))
  {
@@ -319,7 +331,7 @@ short int get_primary_key(const char *key,const size_t length)
 
 short int get_silver_key(const char *key,const size_t length)
 {
- short int result;
+ short int result=0;
  static size_t index=0;
  if (index==(length-1))
  {
@@ -335,7 +347,7 @@ short int get_iron_key(const char *key,const size_t length)
 {
  static size_t tail=0;
  static size_t head=0;
- short int result;
+ short int result=0;
  if (tail==(length-1))
  {
   tail=0;
@@ -355,7 +367,7 @@ short int get_bronze_key(const char *key,const size_t length)
 {
  static size_t tail=0;
  static size_t head=0;
- short int result;
+ short int result=0;
  if (tail==(length-1))
  {
   tail=0;
@@ -374,7 +386,7 @@ short int get_bronze_key(const char *key,const size_t length)
 short int get_cobalt_key(const char *key,const size_t length)
 {
  short int result;
- size_t index;
+ size_t index=0;
  result=0;
  for(index=0;index<length;++index)
  {
@@ -385,8 +397,8 @@ short int get_cobalt_key(const char *key,const size_t length)
 
 short int get_gold_key(const char *key,const size_t length)
 {
- size_t index;
- short int result;
+ size_t index=0;
+ short int result=0;
  result=0;
  for (index=1;index<length;++index)
  {
@@ -402,7 +414,7 @@ short int get_plantium_key(const char *key,const size_t length)
 
 short int encrypt_byte(const char source,const char *key,const size_t length,const short int plantium)
 {
- short int result;
+ short int result=0;
  result=source^get_key(key,length);
  result+=get_primary_key(key,length)+get_silver_key(key,length)+get_bronze_key(key,length)+get_iron_key(key,length);
  return result^plantium;
@@ -430,7 +442,7 @@ short int *create_encrypt_buffer()
 
 void encrypt_data(const char *source,short int *target,const char *key,const size_t length,const short int plantium,const size_t amount)
 {
- size_t index;
+ size_t index=0;
  for (index=0;index<amount;++index)
  {
   target[index]=encrypt_byte(source[index],key,length,plantium);
@@ -440,7 +452,7 @@ void encrypt_data(const char *source,short int *target,const char *key,const siz
 
 void decrypt_data(const short int *source,char *target,const char *key,const size_t length,const short int plantium,const size_t amount)
 {
- size_t index;
+ size_t index=0;
  for (index=0;index<amount;++index)
  {
   target[index]=decrypt_block(source[index],key,length,plantium);
@@ -450,23 +462,26 @@ void decrypt_data(const short int *source,char *target,const char *key,const siz
 
 void encrypt_file(const char *target,const char *key)
 {
- int input,output;
- long long int index,amount;
- size_t blocks,length;
- short int plantium;
+ int input=-1;
+ int output=-1;
+ long long int index=0;
+ long long int amount=0;
+ size_t blocks=0;
+ size_t length=0;
+ short int plantium=0;
  short int *encrypted=NULL;
- char *decrypted;
- char *short_name=NULL;
+ char *decrypted=NULL;
+ char *name_without_extension=NULL;
  char *name=NULL;
  char *extension=NULL;
  input=open_input_file(target);
  amount=get_file_size(input);
- short_name=get_short_name(target);
+ name_without_extension=get_name_without_extension(target);
  extension=get_extension(target);
- name=get_name(short_name,".bef");
+ name=get_name(name_without_extension,".bef");
  output=create_output_file(name);
  write_container_data(output,extension);
- free(short_name);
+ free(name_without_extension);
  free(name);
  free(extension);
  encrypted=create_encrypt_buffer();
@@ -497,26 +512,30 @@ void encrypt_file(const char *target,const char *key)
 
 void decrypt_file(const char *target,const char *key)
 {
- int input,output;
- long long int index,amount;
- size_t blocks,length,chunk;
- short int plantium;
- blackice_head head;
+ int input=-1;
+ int output=-1;
+ long long int index=0;
+ size_t amount=0;
+ size_t blocks=0;
+ size_t length=0;
+ size_t chunk=0;
+ short int plantium=0;
  short int *encrypted=NULL;
  char *decrypted=NULL;
- char *short_name=NULL;
+ char *name_without_extension=NULL;
  char *name=NULL;
  char *extension=NULL;
+ blackice_head head;
  input=open_input_file(target);
  amount=get_file_size(input);
- short_name=get_short_name(target);
+ name_without_extension=get_name_without_extension(target);
  head=read_head(input);
  if (head.extension>0)
  {
   extension=get_string_memory((size_t)head.extension);
   read(input,extension,head.extension);
  }
- name=get_name(short_name,extension);
+ name=get_name(name_without_extension,extension);
  output=create_output_file(name);
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
