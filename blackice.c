@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.2.3");
+ puts("Version 2.2.4");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -84,7 +84,10 @@ void show_progress(const long long int start,const long long int end)
 void check_password_length(const char *key)
 {
  size_t length=0;
- length=strlen(key);
+ if (key!=NULL)
+ {
+  length=strlen(key);
+ }
  if ((length<2)||(length>255))
  {
   puts("The password length is invalid");
@@ -385,9 +388,8 @@ short int get_bronze_key(const char *key,const size_t length)
 
 short int get_cobalt_key(const char *key,const size_t length)
 {
- short int result;
+ short int result=0;
  size_t index=0;
- result=0;
  for(index=0;index<length;++index)
  {
   result+=key[index];
