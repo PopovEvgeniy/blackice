@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.2.6");
+ puts("Version 2.2.7");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -566,6 +566,9 @@ void decrypt_file(const char *target,const char *key)
  }
  show_message("Data synchronization in progress. Please wait");
  file_sync(output);
+ free(name_without_extension);
+ free(name);
+ free(extension);
  free(encrypted);
  free(decrypted);
  close(input);
