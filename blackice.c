@@ -57,7 +57,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.2.4");
+ puts("Version 2.2.6");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -176,6 +176,11 @@ long long int get_file_size(const int target)
 {
  long long int length=0;
  length=file_seek(target,0,SEEK_END);
+ if (length==-1)
+ {
+  puts("Can't get the file size!");
+  exit(8);
+ }
  file_seek(target,0,SEEK_SET);
  return length;
 }
@@ -266,7 +271,7 @@ char *get_extension(const char *name)
  size_t position=0;
  size_t amount=0;
  position=get_name_without_extension_length(name);
- if (name!=NULL)
+ if (position>0)
  {
   amount=strlen(name)-position;
  }
@@ -574,7 +579,7 @@ void work(const char *mode,const char *key,const char *target)
   if(strcmp(mode,"decrypt")!=0)
   {
    show_message("The invalid mode");
-   exit(8);
+   exit(9);
   }
 
  }

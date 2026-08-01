@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.2.4
+                          Version 2.2.6
 
 System requirements.
 
@@ -36,7 +36,8 @@ Exit codes.
 5: Can't write data.
 6: Can't allocate memory.
 7: The invalid format.
-8: The invalid mode.
+8: Can't get the file size!
+9: The invalid mode.
 
 License.
 
@@ -139,4 +140,4 @@ Version history.
 2.1.7-2.1.8: A small bug has been fixed.
 2.1.9: The small changes.
 2.2: A small bug has been fixed.
-2.2.1-2.2.4: The small changes.
+2.2.1-2.2.6: The small changes.
