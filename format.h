@@ -1,4 +1,4 @@
-#define BUFFER_LENGTH 4096
+#define BUFFER_LENGTH 1048576
 
 typedef struct
 {

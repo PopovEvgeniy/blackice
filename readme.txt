@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.2.7
+                          Version 2.3.7
 
 System requirements.
 
@@ -29,15 +29,17 @@ The modes are: encrypt - encryption mode, decrypt - decryption mode.
 Exit codes.
 
 0: The operation was successfully completed.
-1: The password length is invalid.
-2: Can't open the input file.
-3: Can't create the output file.
-4: Can't read data.
-5: Can't write data.
-6: Can't allocate memory.
-7: The invalid format.
-8: Can't get the file size!
-9: The invalid mode.
+1: Can't open the input file.
+2: Can't create the output file.
+3: Can't get the current position.
+4: Can't get the file size!
+5: Can't read data.
+6: Can't write data.
+7: Can't allocate memory.
+8: The password length is invalid.
+9: The invalid format.
+10: The invalid mode.
+11: The command-line arguments is invalid.
 
 License.
 
@@ -142,3 +144,6 @@ Version history.
 2.2: A small bug has been fixed.
 2.2.1-2.2.6: The small changes.
 2.2.7: The memory leak has been fixed.
+2.2.8: The file processing has improved.
+2.2.9-2.3.6: The small changes.
+2.3.8: The file processing has improved.

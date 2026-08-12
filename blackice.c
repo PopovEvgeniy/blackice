@@ -1,25 +1,28 @@
 #include "format.h"
 #include "blackice.h"
+#include "exitcode.h"
 
 void show_intro();
 void command_line_help();
 void show_message(const char *message);
+void show_error(const char *message);
 void show_progress(const long long int start,const long long int end);
-void check_password_length(const char *key);
-int open_input_file(const char *name);
-int create_output_file(const char *name);
-void read_data(const int target,void *buffer,const size_t amount);
-void write_data(const int target,const void *buffer,const size_t amount);
+FILE *open_input_file(const char *name);
+FILE *create_output_file(const char *name);
+long long int get_file_position(FILE *target);
+long long int get_file_size(FILE *target);
+void read_data(FILE *target,void *buffer,const size_t amount);
+void write_data(FILE *target,const void *buffer,const size_t amount);
 void check_memory(const void *memory);
+void check_password_length(const char *key);
 void check_signature(const char *signature);
-long long int get_file_size(const int target);
 char *get_string_memory(const size_t length);
 size_t get_name_without_extension_length(const char *source);
 char *get_name_without_extension(const char *name);
 char *get_name(const char *name,const char *extension);
 char *get_extension(const char *name);
-blackice_head read_head(const int target);
-void write_container_data(const int target,const char *extension);
+blackice_head read_head(FILE *target);
+void write_container_data(FILE *target,const char *extension);
 char get_key(const char *key,const size_t length);
 short int get_primary_key(const char *key,const size_t length);
 short int get_silver_key(const char *key,const size_t length);
@@ -44,6 +47,7 @@ int main(int argc, char *argv[])
  if (argc<4)
  {
   command_line_help();
+  exit(COMMAND_LINE_ARGUMENTS_ERROR);
  }
  else
  {
@@ -57,7 +61,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.2.7");
+ puts("Version 2.3.7");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -75,10 +79,106 @@ void show_message(const char *message)
  puts(message);
 }
 
+void show_error(const char *message)
+{
+ fputc('\n',stderr);
+ fputs(message,stderr);
+ fputc('\n',stderr);
+}
+
 void show_progress(const long long int start,const long long int end)
 {
  putchar('\r');
  printf("The amount of the processed bytes: %llu from %llu. The progress:%llu%%",start,end,(start*100)/end);
+}
+
+FILE *open_input_file(const char *name)
+{
+ FILE *target=NULL;
+ if (name==NULL)
+ {
+  show_error("Can't open the input file");
+  exit(OPEN_FILE_ERROR);
+ }
+ target=fopen(name,"rb");
+ if (target==NULL)
+ {
+  show_error("Can't open the input file");
+  exit(OPEN_FILE_ERROR);
+ }
+ return target;
+}
+
+FILE *create_output_file(const char *name)
+{
+ FILE *target=NULL;
+ if (name==NULL)
+ {
+  show_error("Can't create the output file");
+  exit(CREATE_FILE_ERROR);
+ }
+ target=fopen(name,"wb");
+ if (target==NULL)
+ {
+  show_error("Can't create the output file");
+  exit(CREATE_FILE_ERROR);
+ }
+ return target;
+}
+
+long long int get_file_position(FILE *target)
+{
+ long long int position=0;
+ position=file_tell(target);
+ if (position<0)
+ {
+  show_error("Can't get the current position!");
+  exit(SET_FILE_POSITION_ERROR);
+ }
+ return position;
+}
+
+long long int get_file_size(FILE *target)
+{
+ long long int length=0;
+ if (file_seek(target,0,SEEK_END)!=0)
+ {
+  show_error("Can't get the file size!");
+  exit(GET_FILE_SIZE_ERROR);
+ }
+ length=file_tell(target);
+ file_seek(target,0,SEEK_SET);
+ return length;
+}
+
+void read_data(FILE *target,void *buffer,const size_t amount)
+{
+ if (fread(buffer,sizeof(char),amount,target)<amount)
+  {
+   show_error("Can't read data!");
+   exit(READ_DATA_ERROR);
+  }
+
+}
+
+void write_data(FILE *target,const void *buffer,const size_t amount)
+{
+ if (fwrite(buffer,sizeof(char),amount,target)<amount)
+  {
+   show_error("Can't write data!");
+   exit(WRITE_DATA_ERROR);
+  }
+
+}
+
+void check_memory(const void *memory)
+{
+ if (memory==NULL)
+ {
+  show_error("Can't allocate memory");
+  exit(MEMORY_ALLOCATION_ERROR);
+ }
+
 }
 
 void check_password_length(const char *key)
@@ -90,74 +190,8 @@ void check_password_length(const char *key)
  }
  if ((length<2)||(length>255))
  {
-  puts("The password length is invalid");
-  puts("The minimum password length is 2 characters");
-  puts("The maximum password length is 255 characters");
-  exit(1);
- }
-
-}
-
-int open_input_file(const char *name)
-{
- int target=-1;
- if (name==NULL)
- {
-  puts("Can't open the input file");
-  exit(2);
- }
- target=open(name,INPUT_FILE_MODE);
- if (target==-1)
- {
-  puts("Can't open the input file");
-  exit(2);
- }
- return target;
-}
-
-int create_output_file(const char *name)
-{
- int target=-1;
- if (name==NULL)
- {
-  puts("Can't create the output file");
-  exit(3);
- }
- target=open(name,OUTPUT_FILE_MODE,OUTPUT_FILE_PERMISSIONS);
- if (target==-1)
- {
-  puts("Can't create the output file");
-  exit(3);
- }
- return target;
-}
-
-void read_data(const int target,void *buffer,const size_t amount)
-{
- if (read(target,buffer,amount)==-1)
-  {
-   show_message("Can't read data!");
-   exit(4);
-  }
-
-}
-
-void write_data(const int target,const void *buffer,const size_t amount)
-{
- if (write(target,buffer,amount)==-1)
-  {
-   show_message("Can't write data!");
-   exit(5);
-  }
-
-}
-
-void check_memory(const void *memory)
-{
- if (memory==NULL)
- {
-  puts("Can't allocate memory");
-  exit(6);
+  show_error("The password length is invalid");
+  exit(INVALID_PASSWORD_LENGTH_ERROR);
  }
 
 }
@@ -166,23 +200,10 @@ void check_signature(const char *signature)
 {
  if(strncmp(signature,"BEF",3)!=0)
  {
-  puts("The invalid format");
-  exit(7);
+  show_error("The invalid format");
+  exit(INVALID_FORMAT_ERROR);
  }
 
-}
-
-long long int get_file_size(const int target)
-{
- long long int length=0;
- length=file_seek(target,0,SEEK_END);
- if (length==-1)
- {
-  puts("Can't get the file size!");
-  exit(8);
- }
- file_seek(target,0,SEEK_SET);
- return length;
 }
 
 char *get_string_memory(const size_t length)
@@ -283,15 +304,15 @@ char *get_extension(const char *name)
  return result;
 }
 
-blackice_head read_head(const int target)
+blackice_head read_head(FILE *target)
 {
  blackice_head head;
- read(target,&head,sizeof(blackice_head));
+ read_data(target,&head,sizeof(blackice_head));
  check_signature(head.signature);
  return head;
 }
 
-void write_container_data(const int target,const char *extension)
+void write_container_data(FILE *target,const char *extension)
 {
  blackice_head head;
  strncpy(head.signature,"BEF",3);
@@ -299,13 +320,13 @@ void write_container_data(const int target,const char *extension)
  head.extension=0;
  if (extension==NULL)
  {
-  write(target,&head,sizeof(blackice_head));
+  write_data(target,&head,sizeof(blackice_head));
  }
  else
  {
   head.extension=strlen(extension);
-  write(target,&head,sizeof(blackice_head));
-  write(target,extension,head.extension);
+  write_data(target,&head,sizeof(blackice_head));
+  write_data(target,extension,head.extension);
  }
 
 }
@@ -469,18 +490,19 @@ void decrypt_data(const short int *source,char *target,const char *key,const siz
 
 void encrypt_file(const char *target,const char *key)
 {
- int input=-1;
- int output=-1;
- long long int index=0;
- long long int amount=0;
- size_t blocks=0;
- size_t length=0;
- short int plantium=0;
+ FILE *input=NULL;
+ FILE *output=NULL;
  short int *encrypted=NULL;
  char *decrypted=NULL;
  char *name_without_extension=NULL;
  char *name=NULL;
  char *extension=NULL;
+ short int plantium=0;
+ long long int index=0;
+ long long int amount=0;
+ long long int elapsed=0;
+ size_t length=0;
+ size_t blocks=BUFFER_LENGTH;
  input=open_input_file(target);
  amount=get_file_size(input);
  name_without_extension=get_name_without_extension(target);
@@ -488,50 +510,50 @@ void encrypt_file(const char *target,const char *key)
  name=get_name(name_without_extension,".bef");
  output=create_output_file(name);
  write_container_data(output,extension);
- free(name_without_extension);
- free(name);
- free(extension);
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
- blocks=BUFFER_LENGTH;
- index=0;
  length=strlen(key);
  plantium=get_plantium_key(key,length);
  while (index<amount)
  {
-  if ((amount-index)<BUFFER_LENGTH)
+  elapsed=amount-index;
+  if (elapsed<BUFFER_LENGTH)
   {
-   blocks=(size_t)(amount-index);
+   blocks=(size_t)elapsed;
   }
   read_data(input,decrypted,blocks);
   encrypt_data(decrypted,encrypted,key,length,plantium,blocks);
   write_data(output,encrypted,sizeof(short int)*blocks);
-  index=file_seek(input,0,SEEK_CUR);
+  index=get_file_position(input);
   show_progress(index,amount);
  }
  show_message("Data synchronization in progress. Please wait");
- file_sync(output);
+ fflush(output);
  free(encrypted);
  free(decrypted);
- close(input);
- close(output);
+ free(name_without_extension);
+ free(name);
+ free(extension);
+ fclose(input);
+ fclose(output);
 }
 
 void decrypt_file(const char *target,const char *key)
 {
- int input=-1;
- int output=-1;
- long long int index=0;
- size_t amount=0;
- size_t blocks=0;
- size_t length=0;
- size_t chunk=0;
- short int plantium=0;
+ FILE *input=NULL;
+ FILE *output=NULL;
  short int *encrypted=NULL;
  char *decrypted=NULL;
  char *name_without_extension=NULL;
  char *name=NULL;
  char *extension=NULL;
+ short int plantium=0;
+ long long int index=0;
+ long long int amount=0;
+ long long int elapsed=0;
+ size_t length=0;
+ size_t chunk=0;
+ size_t blocks=BUFFER_LENGTH;
  blackice_head head;
  input=open_input_file(target);
  amount=get_file_size(input);
@@ -540,49 +562,47 @@ void decrypt_file(const char *target,const char *key)
  if (head.extension>0)
  {
   extension=get_string_memory((size_t)head.extension);
-  read(input,extension,head.extension);
+  read_data(input,extension,head.extension);
  }
  name=get_name(name_without_extension,extension);
  output=create_output_file(name);
  encrypted=create_encrypt_buffer();
  decrypted=create_decrypt_buffer();
- blocks=BUFFER_LENGTH;
- chunk=sizeof(short int)*blocks;
- index=0;
  length=strlen(key);
  plantium=get_plantium_key(key,length);
  while (index<amount)
  {
-  if ((amount-index)<(long long int)chunk)
+  elapsed=amount-index;
+  if (elapsed<(long long int)chunk)
   {
-   blocks=(size_t)(amount-index)/sizeof(short int);
-   chunk=blocks*sizeof(short int);
+   blocks=(size_t)(elapsed)/sizeof(short int);
   }
+  chunk=blocks*sizeof(short int);
   read_data(input,encrypted,chunk);
   decrypt_data(encrypted,decrypted,key,length,plantium,blocks);
   write_data(output,decrypted,blocks);
-  index=file_seek(input,0,SEEK_CUR);
+  index=get_file_position(input);
   show_progress(index,amount);
  }
  show_message("Data synchronization in progress. Please wait");
- file_sync(output);
+ fflush(output);
  free(name_without_extension);
  free(name);
  free(extension);
  free(encrypted);
  free(decrypted);
- close(input);
- close(output);
+ fclose(input);
+ fclose(output);
 }
 
 void work(const char *mode,const char *key,const char *target)
 {
- if(strcmp(mode,"encrypt")!=0)
+ if (strcmp(mode,"encrypt")!=0)
  {
-  if(strcmp(mode,"decrypt")!=0)
+  if (strcmp(mode,"decrypt")!=0)
   {
-   show_message("The invalid mode");
-   exit(9);
+   show_error("The invalid mode");
+   exit(INVALID_MODE_ERROR);
   }
 
  }
