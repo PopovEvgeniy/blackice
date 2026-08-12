@@ -61,7 +61,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.3.7");
+ puts("Version 2.3.9");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -527,15 +527,13 @@ void encrypt_file(const char *target,const char *key)
   index=get_file_position(input);
   show_progress(index,amount);
  }
- show_message("Data synchronization in progress. Please wait");
- fflush(output);
+ fclose(input);
+ fclose(output);
  free(encrypted);
  free(decrypted);
  free(name_without_extension);
  free(name);
  free(extension);
- fclose(input);
- fclose(output);
 }
 
 void decrypt_file(const char *target,const char *key)
@@ -584,15 +582,13 @@ void decrypt_file(const char *target,const char *key)
   index=get_file_position(input);
   show_progress(index,amount);
  }
- show_message("Data synchronization in progress. Please wait");
- fflush(output);
+ fclose(input);
+ fclose(output);
  free(name_without_extension);
  free(name);
  free(extension);
  free(encrypted);
  free(decrypted);
- fclose(input);
- fclose(output);
 }
 
 void work(const char *mode,const char *key,const char *target)
@@ -610,13 +606,13 @@ void work(const char *mode,const char *key,const char *target)
  {
   show_message("Working... Please wait...");
   decrypt_file(target,key);
-  puts("The work has been finished");
+  show_message("The work has been finished");
  }
  if (strcmp(mode,"encrypt")==0)
  {
   show_message("Working... Please wait...");
   encrypt_file(target,key);
-  puts("The work has been finished");
+  show_message("The work has been finished");
  }
 
 }
