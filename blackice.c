@@ -61,7 +61,7 @@ void show_intro()
 {
  putchar('\n');
  puts("BLACK ICE");
- puts("Version 2.4");
+ puts("Version 2.4.1");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -129,7 +129,7 @@ long long int get_file_position(FILE *target)
  if (position<0)
  {
   show_error("Can't get the current position!");
-  exit(SET_FILE_POSITION_ERROR);
+  exit(GET_FILE_POSITION_ERROR);
  }
  return position;
 }
