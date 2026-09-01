@@ -60,8 +60,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE");
- puts("Version 2.4.1");
+ puts("BLACK ICE 2.4.2");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -194,7 +193,7 @@ void check_password_length(const char *key)
 
 void check_signature(const char *signature)
 {
- if(strncmp(signature,"BEF",3)!=0)
+ if (strncmp(signature,"BEF",3)!=0)
  {
   show_error("The invalid format");
   exit(INVALID_FORMAT_ERROR);

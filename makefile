@@ -4,5 +4,5 @@ install:
 	@chmod ugo+rx /bin/blackice
 	@echo Installation was successfully completed
 uninstall:
-	@rm -f /bin/blackice
+	@rm /bin/blackice
 	@echo Uninstallation was successfully completed
