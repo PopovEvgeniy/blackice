@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.4.2");
+ puts("BLACK ICE 2.4.5");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -362,7 +362,7 @@ short int get_silver_key(const char *key,const size_t length)
   index=0;
  }
  result=key[index];
- result-=key[index+1];
+ result*=key[index+1];
  ++index;
  return result;
 }
@@ -545,7 +545,7 @@ void decrypt_file(const char *target,const char *key)
  long long int amount=0;
  long long int elapsed=0;
  size_t length=0;
- size_t chunk=0;
+ size_t chunk=BUFFER_LENGTH/sizeof(short int);
  size_t blocks=BUFFER_LENGTH;
  blackice_head head;
  input=open_input_file(target);
@@ -563,17 +563,18 @@ void decrypt_file(const char *target,const char *key)
  decrypted=create_decrypt_buffer();
  length=strlen(key);
  plantium=get_plantium_key(key,length);
+ index=get_file_position(input);
  while (index<amount)
  {
   elapsed=amount-index;
-  if (elapsed<(long long int)chunk)
+  if (elapsed<BUFFER_LENGTH)
   {
-   blocks=(size_t)(elapsed)/sizeof(short int);
+   blocks=(size_t)(elapsed);
+   chunk=blocks/sizeof(short int);
   }
-  chunk=blocks*sizeof(short int);
-  read_data(input,encrypted,chunk);
-  decrypt_data(encrypted,decrypted,key,length,plantium,blocks);
-  write_data(output,decrypted,blocks);
+  read_data(input,encrypted,blocks);
+  decrypt_data(encrypted,decrypted,key,length,plantium,chunk);
+  write_data(output,decrypted,chunk);
   index=get_file_position(input);
   show_progress(index,amount);
  }
