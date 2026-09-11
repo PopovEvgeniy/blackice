@@ -39,6 +39,7 @@ void encrypt_data(const char *source,short int *target,const char *key,const siz
 void decrypt_data(const short int *source,char *target,const char *key,const size_t length,const short int plantium,const size_t amount);
 void encrypt_file(const char *target,const char *key);
 void decrypt_file(const char *target,const char *key);
+void check_mode(const char *mode);
 void work(const char *mode,const char *key,const char *target);
 
 int main(int argc, char *argv[])
@@ -49,10 +50,16 @@ int main(int argc, char *argv[])
   command_line_help();
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
  }
- else
+ if (argc==4)
  {
+  check_mode(argv[1]);
   check_password_length(argv[2]);
   work(argv[1],argv[2],argv[3]);
+ }
+ if (argc>4)
+ {
+  show_message("You gave too many command-line arguments");
+  exit(COMMAND_LINE_ARGUMENTS_ERROR);
  }
  return 0;
 }
@@ -60,7 +67,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.4.5");
+ puts("BLACK ICE 2.4.8");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -587,7 +594,7 @@ void decrypt_file(const char *target,const char *key)
  free(decrypted);
 }
 
-void work(const char *mode,const char *key,const char *target)
+void check_mode(const char *mode)
 {
  if (strcmp(mode,"encrypt")!=0)
  {
@@ -598,6 +605,11 @@ void work(const char *mode,const char *key,const char *target)
   }
 
  }
+
+}
+
+void work(const char *mode,const char *key,const char *target)
+{
  if (strcmp(mode,"decrypt")==0)
  {
   show_message("Working... Please wait...");
