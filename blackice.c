@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.4.8");
+ puts("BLACK ICE 2.4.9");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -596,6 +596,16 @@ void decrypt_file(const char *target,const char *key)
 
 void check_mode(const char *mode)
 {
+ size_t length=0;
+ if (mode!=NULL)
+ {
+  length=strlen(mode);
+ }
+ if (length==0)
+ {
+  show_error("The invalid mode");
+  exit(INVALID_MODE_ERROR);
+ }
  if (strcmp(mode,"encrypt")!=0)
  {
   if (strcmp(mode,"decrypt")!=0)
