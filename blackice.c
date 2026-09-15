@@ -45,21 +45,29 @@ void work(const char *mode,const char *key,const char *target);
 int main(int argc, char *argv[])
 {
  show_intro();
- if (argc<4)
+ switch (argc)
  {
+  case 1:
   command_line_help();
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
- }
- if (argc==4)
- {
+  break;
+  case 2:
+  show_message("You don't set a password");
+  exit(COMMAND_LINE_ARGUMENTS_ERROR);
+  break;
+  case 3:
+  show_message("You don't give the target file name");
+  exit(COMMAND_LINE_ARGUMENTS_ERROR);
+  break;
+  case 4:
   check_mode(argv[1]);
   check_password_length(argv[2]);
   work(argv[1],argv[2],argv[3]);
- }
- if (argc>4)
- {
+  break;
+  default:
   show_message("You gave too many command-line arguments");
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
+  break;
  }
  return 0;
 }
@@ -67,7 +75,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.4.9");
+ puts("BLACK ICE 2.5");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
