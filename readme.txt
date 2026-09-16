@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.5
+                          Version 2.5.1
 
 System requirements.
 
@@ -155,3 +155,4 @@ Version history.
 2.4.6: The small changes.
 2.4.7: A small bug has been fixed.
 2.4.8-2.5: The small changes.
+2.5.1: The small changes in the cryptography algorithm.

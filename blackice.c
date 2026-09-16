@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.5");
+ puts("BLACK ICE 2.5.1");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -428,9 +428,9 @@ short int get_cobalt_key(const char *key,const size_t length)
  size_t index=0;
  for(index=0;index<length;++index)
  {
-  result+=key[index];
+  result+=~key[index];
  }
- return ~result;
+ return result;
 }
 
 short int get_gold_key(const char *key,const size_t length)
