@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.5.1");
+ puts("BLACK ICE 2.5.2");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -343,13 +343,14 @@ void write_container_data(FILE *target,const char *extension)
 
 char get_key(const char *key,const size_t length)
 {
- char result=0;
+ static char result=0;
  static size_t position=0;
  if (position==length)
  {
   position=0;
+  result=0;
  }
- result=key[position];
+ result^=key[position];
  ++position;
  return result;
 }
