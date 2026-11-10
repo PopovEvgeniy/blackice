@@ -52,11 +52,11 @@ int main(int argc, char *argv[])
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
   break;
   case 2:
-  show_message("You don't set a password");
+  show_error("You don't set a password");
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
   break;
   case 3:
-  show_message("You don't give the target file name");
+  show_error("You don't give the target file name");
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
   break;
   case 4:
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
   work(argv[1],argv[2],argv[3]);
   break;
   default:
-  show_message("You gave too many command-line arguments");
+  show_error("You gave too many command-line arguments");
   exit(COMMAND_LINE_ARGUMENTS_ERROR);
   break;
  }
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.5.2");
+ puts("BLACK ICE 2.5.5");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -136,6 +136,16 @@ FILE *create_output_file(const char *name)
  return target;
 }
 
+void close_output_file(FILE *output)
+{
+ if (fclose(output)!=0)
+ {
+  show_error("Can't close the output file correctly");
+  exit(CLOSE_FILE_ERROR);
+ }
+
+}
+
 long long int get_file_position(FILE *target)
 {
  long long int position=0;
@@ -157,7 +167,11 @@ long long int get_file_size(FILE *target)
   exit(GET_FILE_SIZE_ERROR);
  }
  length=file_tell(target);
- file_seek(target,0,SEEK_SET);
+ if (file_seek(target,0,SEEK_SET)!=0)
+ {
+  show_error("Can't rewind the file!");
+  exit(GET_FILE_SIZE_ERROR);
+ }
  return length;
 }
 
@@ -539,7 +553,7 @@ void encrypt_file(const char *target,const char *key)
   show_progress(index,amount);
  }
  fclose(input);
- fclose(output);
+ close_output_file(output);
  free(encrypted);
  free(decrypted);
  free(name_without_extension);
@@ -595,7 +609,7 @@ void decrypt_file(const char *target,const char *key)
   show_progress(index,amount);
  }
  fclose(input);
- fclose(output);
+ close_output_file(output);
  free(name_without_extension);
  free(name);
  free(extension);

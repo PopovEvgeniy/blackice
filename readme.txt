@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.5.2.1
+                          Version 2.5.5
 
 System requirements.
 
@@ -31,15 +31,17 @@ Exit codes.
 0: The operation was successfully completed.
 1: Can't open the input file.
 2: Can't create the output file.
-3: Can't get the current position.
-4: Can't get the file size!
-5: Can't read data.
-6: Can't write data.
-7: Can't allocate memory.
-8: The password length is invalid.
-9: The invalid format.
-10: The invalid mode.
-11: The command-line arguments is invalid.
+3: Can't close the output file correctly.
+4: Can't get the current position.
+5: Can't get the file size!
+6: Can't rewind the file!
+7: Can't read data.
+8: Can't write data.
+9: Can't allocate memory.
+10: The password length is invalid.
+11: The invalid format.
+12: The invalid mode.
+13: The command-line arguments are invalid.
 
 License.
 
@@ -79,7 +81,7 @@ Version history.
 0.9: The old versions of Windows support have been dropped. Linux support has been added. The file size limit has been increased.
 0.9.1: The small changes.
 0.9.2: The speed of the cryptography algorithm has been increased.
-0.9.3: The small bug has been fixed.
+0.9.3: A minor bug has been fixed.
 0.9.4-0.9.4.3: The cryptography algorithm has been changed.
 0.9.5: The processor usage has been reduced.
 0.9.6: The memory usage has been reduced.
@@ -88,7 +90,7 @@ Version history.
 0.9.6.3: The processor and memory usage have reduced.
 0.9.6.4: The small changes.
 0.9.6.5: A lot of internal changes.
-0.9.6.6: The small bug has been fixed.
+0.9.6.6: A minor bug has been fixed.
 0.9.6.7-0.9.6.8: The small changes.
 0.9.6.9-0.9.8: The cryptography algorithm has been changed.
 0.9.9-1.0.2: The small changes.
@@ -99,7 +101,7 @@ Version history.
 1.2: The small changes in the cryptography algorithm.
 1.2.1: The maximum password length has been decreased.
 1.2.2: The small changes.
-1.2.3-1.2.4: The small bug in the file decryption has been fixed.
+1.2.3-1.2.4: A minor bug in the file decryption has been fixed.
 1.2.5: The small changes.
 1.3: The small changes in the cryptography algorithm.
 1.3.1: The small changes.
@@ -117,7 +119,7 @@ Version history.
 1.7.4-1.7.8: The small changes.
 1.7.9: Visual C++ support has been improved.
 1.8-1.8.3: The small changes.
-1.8.4: The small bug has been fixed.
+1.8.4: A minor bug has been fixed.
 1.8.5-1.8.6: The small changes.
 1.8.5.1: The documentation has been updated.
 1.8.7: The small changes.
@@ -135,13 +137,13 @@ Version history.
 2.0.4: The small changes.
 2.0.5: The small changes in the cryptography algorithm.
 2.0.6: The small changes.
-2.0.7: The small bug has been fixed.
+2.0.7: A minor bug has been fixed.
 2.0.8-2.1.4: The small changes.
-2.1.5: The small bug has been fixed.
+2.1.5: A minor bug has been fixed.
 2.1.6: The small changes.
-2.1.7-2.1.8: The small bug has been fixed.
+2.1.7-2.1.8: A minor bug has been fixed.
 2.1.9: The small changes.
-2.2: The small bug has been fixed.
+2.2: A minor bug has been fixed.
 2.2.1-2.2.6: The small changes.
 2.2.7: The memory leak has been fixed.
 2.2.8: The file processing has been improved.
@@ -151,9 +153,11 @@ Version history.
 2.4: The file processing has been improved.
 2.4.1-2.4.3: The small changes.
 2.4.4: The small changes in the cryptography algorithm.
-2.4.5: The small bug has been fixed.
+2.4.5: A minor bug has been fixed.
 2.4.6: The small changes.
-2.4.7: The small bug has been fixed.
+2.4.7: A minor bug has been fixed.
 2.4.8-2.5: The small changes.
 2.5.1-2.5.2: The small changes in the cryptography algorithm.
 2.5.2.1: The documentation has been updated.
+2.5.3-2.5.4: The file processing has been improved.
+2.5.5: The small changes.
