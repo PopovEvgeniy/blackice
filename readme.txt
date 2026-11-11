@@ -2,7 +2,7 @@
 
   The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich
 
-                          Version 2.5.5
+                          Version 2.5.6
 
 System requirements.
 
@@ -65,7 +65,7 @@ Run as root for uninstall: make uninstall
 
 Thanks.
 
-Thanks for technical consultation go to these people:
+Thanks for technical consultation to these people:
 
 BlackBird
 Astyanax
@@ -160,4 +160,4 @@ Version history.
 2.5.1-2.5.2: The small changes in the cryptography algorithm.
 2.5.2.1: The documentation has been updated.
 2.5.3-2.5.4: The file processing has been improved.
-2.5.5: The small changes.
+2.5.5-2.5.6: The small changes.

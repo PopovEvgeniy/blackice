@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.5.5");
+ puts("BLACK ICE 2.5.6");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
  puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
 }
@@ -104,6 +104,7 @@ void show_progress(const long long int start,const long long int end)
 {
  putchar('\r');
  printf("The amount of the processed bytes: %llu from %llu. The progress:%llu%%",start,end,(start*100)/end);
+ fflush(stdout);
 }
 
 FILE *open_input_file(const char *name)
