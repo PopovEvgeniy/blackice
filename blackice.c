@@ -7,6 +7,7 @@ void command_line_help();
 void show_message(const char *message);
 void show_error(const char *message);
 void show_progress(const long long int start,const long long int end);
+void check_name(const char *name,const char *message,const int code);
 FILE *open_input_file(const char *name);
 FILE *create_output_file(const char *name);
 long long int get_file_position(FILE *target);
@@ -75,9 +76,9 @@ int main(int argc, char *argv[])
 void show_intro()
 {
  putchar('\n');
- puts("BLACK ICE 2.5.6");
+ puts("BLACK ICE 2.5.8");
  puts("The complex file cryptography tool (both encryption and decryption) by Popov Evgeniy Alekseyevich,2017-2026 years");
- puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE");
+ puts("This program is distributed under the GNU GENERAL PUBLIC LICENSE (version 2 or later) terms");
 }
 
 void command_line_help()
@@ -107,13 +108,26 @@ void show_progress(const long long int start,const long long int end)
  fflush(stdout);
 }
 
+void check_name(const char *name,const char *message,const int code)
+{
+ size_t length=0;
+ if (name!=NULL)
+ {
+  length=strlen(name);
+ }
+ if (length==0)
+ {
+  show_error(message);
+  exit(code);
+ }
+
+}
+
 FILE *open_input_file(const char *name)
 {
  FILE *target=NULL;
- if (name!=NULL)
- {
-  target=fopen(name,"rb");
- }
+ check_name(name,"The input file name is empty",EMPTY_TARGET_NAME_ERROR);
+ target=fopen(name,"rb");
  if (target==NULL)
  {
   show_error("Can't open the input file");
@@ -171,7 +185,7 @@ long long int get_file_size(FILE *target)
  if (file_seek(target,0,SEEK_SET)!=0)
  {
   show_error("Can't rewind the file!");
-  exit(GET_FILE_SIZE_ERROR);
+  exit(REWIND_FILE_ERROR);
  }
  return length;
 }
